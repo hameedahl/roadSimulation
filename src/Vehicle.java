@@ -1,3 +1,13 @@
+/*
+ *  
+ *  Assignment: Java4 Fall 2023
+ *  Name: Hameedah Lawal 
+ *  Email: hlawal01@tufts.edu
+ *  Abstract base class for all vehicles in simulation; 
+ *  to be used by Model, Car, Bike, and Background 
+ * 
+ */
+
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,9 +18,10 @@ import javax.swing.Timer;
 abstract public class Vehicle implements ActionListener {
         private int xLocation;
         private int yLocation;
+        private int initSpeed = 100;
         private int speed;
         private int speedChange;
-        private boolean isMoving; 
+        public  boolean isMoving; 
         private Timer timer;
         private Canvas mainCanvas;
         public  String imagePath;
@@ -23,10 +34,9 @@ abstract public class Vehicle implements ActionListener {
                 this.speedChange = speedChange;
                 this.isMoving = isMoving;
                 this.mainCanvas = canvas;
-                this.timer = new Timer(100, this);
+                this.timer = new Timer(initSpeed, this);
                 this.imagePath = imagePath;
-                // if (isMoving) { drive(); }
-
+                if (isMoving) { drive(); }
         }
 
         public void draw(Graphics2D canvas) {
@@ -36,6 +46,10 @@ abstract public class Vehicle implements ActionListener {
 
         public void setImagePath(String path) {
                 imagePath = path;
+        }
+
+        public String getImagePath() {
+                return imagePath;
         }
 
         public void setX(int newX) {
@@ -73,22 +87,33 @@ abstract public class Vehicle implements ActionListener {
         public void brake() {
                 isMoving = false;
                 timer.stop();
+                // timer.setDelay(initSpeed); /* reset speed */
         }
 
         public void speedUp() {
-                speed += speedChange; /* TODO: set max speed */
+                /* keep speed 0 or positive */
+                timer.setDelay(timer.getDelay() -  ((timer.getDelay() - speedChange) < 0 ? 0 : speedChange));
+                //speed += speedChange; /* TODO: set max speed */
         }
 
         public void slowDown() {
-                /* keep speed 0 or positive */
-                speed -= ((speed - speedChange) < 0 ? 0 : speedChange);
+                /* stop car when speed is low */
+                if (timer.getDelay() + speedChange >= 100) { 
+                        brake();
+                } else {
+                        timer.setDelay(timer.getDelay() + speedChange);
+                }
+               // speed -= ((speed - speedChange) < 0 ? 0 : speedChange);
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                /* simulate driving; set bike back to beginning when out 
-                   of bounds */
-                setX((getX() >= 1280 - 73) ? -200: getX() + getSpeed());
+                /* set vehicle back to beginning when out of bounds */
+                if (getX() >= 1280) { 
+                        setX(-3000);
+                }
+
+                setX(getX() + getSpeed());
                 mainCanvas.repaint();
         }
 }

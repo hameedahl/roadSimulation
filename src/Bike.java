@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java3 Fall 2023
+ *  Assignment: Java4 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  
@@ -10,13 +10,10 @@
  */
 
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-
 import javax.swing.ImageIcon;
 
 public class Bike extends Vehicle {
-        private static int colorIdx = 0;
-        private static boolean isMoving = false; 
+        private int colorIdx = 0;
         /* variables need for drawing */
         private int xLocation;
         private int yLocation;
@@ -26,7 +23,8 @@ public class Bike extends Vehicle {
         private String[] colors = {"blue", "red", "green", "orange", 
                                    "pink", "yellow"};
 
-        public Bike(int x, int y, int speed, int speedChange, boolean isMoving, Canvas canvas, String imagePath) {
+        public Bike(int x, int y, int speed, int speedChange, 
+                    boolean isMoving, Canvas canvas, String imagePath) {
                 super(x, y, speed, speedChange, isMoving, canvas, imagePath);
                 this.mainCanvas = canvas;
                 this.xLocation = x;
@@ -35,11 +33,8 @@ public class Bike extends Vehicle {
         }
 
         public void draw(Graphics2D canvas) {
-                /* colors for bike */
-                // System.out.println("here: " + getX());
-
-                canvas.drawImage((new ImageIcon(imagePath)).getImage(), xLocation, 
-                                  yLocation, null);
+                canvas.drawImage((new ImageIcon(imagePath)).getImage(), getX(), 
+                                  getY(), null);
         }
 
         public String getColor() {
@@ -52,12 +47,4 @@ public class Bike extends Vehicle {
                 imagePath = getColor();
                 mainCanvas.repaint();
         }
-
-        // @Override
-        // public void actionPerformed(ActionEvent e) {
-        //         /* simulate driving; set bike back to beginning when out 
-        //            of bounds */
-        //         setX((getX() >= 1280 - 73) ? -200: getX() + getSpeed());
-        //         mainCanvas.repaint();
-        // }
 }

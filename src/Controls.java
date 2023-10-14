@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java3 Fall 2023
+ *  Assignment: Java4 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  All controls needed for simulation; i.e driving, 
@@ -17,11 +17,21 @@ public class Controls extends JPanel {
 
         public Controls(Canvas canvas, Model simulationData) {
                 styleControls();
-                Button driveBtn = new Button("Drive", ++buttonId, simulationData.mainBike);
-                Button fasterBtn = new Button("Speed Up", ++buttonId, simulationData.mainBike);
-                Button slowerBtn = new Button("Slow Down", ++buttonId, simulationData.mainBike);
-                Button colorBtn = new Button("Change Bike Color", ++buttonId, simulationData.mainBike);
-                Button breakBtn = new Button("Brake", ++buttonId, simulationData.mainBike);
+                Button driveBtn = new Button("Drive", ++buttonId, 
+                                             simulationData.background1, 
+                                             simulationData.background2);
+                Button fasterBtn = new Button("Speed Up", ++buttonId, 
+                                              simulationData.background1, 
+                                              simulationData.background2);
+                Button slowerBtn = new Button("Slow Down", ++buttonId, 
+                                               simulationData.background1, 
+                                               simulationData.background2);
+                Button colorBtn = new Button("Change Bike Color", 
+                                             ++buttonId, 
+                                             simulationData.mainBike);
+                Button breakBtn = new Button("Brake", ++buttonId, 
+                                             simulationData.background1, 
+                                             simulationData.background2);
 
                 add(driveBtn);
                 add(breakBtn);

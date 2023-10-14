@@ -1,10 +1,10 @@
 /*
 
- *  Assignment: Java1 Fall 2023
+ *  Assignment: Java4 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Buttons to control simulation by interacting with 
- *  Bike class; to be used in Controls
+ *  Background class (make Bike "move"); to be used in Controls
  * 
  */
 
@@ -16,6 +16,7 @@ import javax.swing.JButton;
 public class Button extends JButton implements ActionListener {
         private int id; 
         private Bike bike;
+        Background background1, background2;
 
         public Button(String label, int btnId, Bike mainBike) {
                 setText(label);
@@ -24,23 +25,36 @@ public class Button extends JButton implements ActionListener {
                 bike = mainBike;
         }
 
+        public Button(String label, int btnId, Background background1, 
+                      Background background2) {
+                setText(label);
+                addActionListener(this);
+                id = btnId;
+                this.background1 = background1;
+                this.background2 = background2;
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
                 switch (id) {
                         case 1:
-                                bike.drive();
+                                background1.drive();
+                                background2.drive();
                                 break;
                         case 2:
-                                bike.speedUp();
+                                background1.speedUp();
+                                background2.speedUp();
                                 break;
                         case 3:
-                                bike.slowDown();
+                                background1.slowDown();
+                                background2.slowDown();
                                 break;
                         case 4:
                                 bike.changeColor();
                                 break;
                         case 5:
-                                bike.brake();
+                                background1.brake();
+                                background2.brake();
                                 break;
                 }
         }

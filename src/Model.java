@@ -1,56 +1,103 @@
+/*
+ *  
+ *  Assignment: Java4 Fall 2023
+ *  Name: Hameedah Lawal 
+ *  Email: hlawal01@tufts.edu
+ *  Holds data for the simulation and keeps track 
+ *  of any updates made
+ * 
+ */
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
+import java.util.Arrays;
 
 public class Model {
         ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
         Bike mainBike;
         String backgroundPath = "imgs/background.png";
         Canvas mainCanvas;
+        Background background1, background2;
+        int bikeIdx = 0;
+        /* data for adding vehicles to sim */
+        ArrayList<String> vehiclePaths = new ArrayList<String>
+                          (Arrays.asList("bike_blue", 
+                                         "bus", "car_blue", "car_grey", 
+                                         "jeep", "car_green", 
+                                         "cop_car", "fast_car"));
+        ArrayList<Integer> x = new ArrayList<Integer>
+                          (Arrays.asList(550, 
+                                         -500, 100, 490, 
+                                         50, -250,
+                                         100, 490));
+        ArrayList<Integer> y = new ArrayList<Integer>
+                          (Arrays.asList(360, 
+                                         330, 380, 
+                                         380, 450, 450,
+                                         510, 510));
+        ArrayList<Integer> speed = new ArrayList<Integer>
+                          (Arrays.asList(15, 
+                                         25, 25, 25,
+                                         30, 25,
+                                         60, 60));
 
         public Model(Canvas canvas) {
                 this.mainCanvas = canvas;
+                /* have 2nd background already drawn for looping */
+                background1 = new Background(0,0, 15, 
+                                             mainCanvas, backgroundPath);
+                background2 = new Background(2132,0, 15, 
+                                             mainCanvas, backgroundPath);
                 createVehicles();
         }
 
         public void createVehicles() {
-                /* top lane  */
-                // Car car1 = new Car(300, 380, 15, 5, 
-                //         true, mainCanvas, "imgs/car_blue.png");
-                // vehicles.add(car1);
-
-                /* middle lane  */
-                mainBike = new Bike(50, 470, 15, 5, 
-                             false, mainCanvas, "imgs/bike_blue.png");
-                vehicles.add(mainBike);
-
-                /* bottom lane  */
+                /* add cars to each lane */
+                for (int newVehicle = 0; newVehicle < vehiclePaths.size(); 
+                     newVehicle++) {
+                        Vehicle vehicle;
+                        if (newVehicle == bikeIdx) {
+                                /* store player bike in instance variable */
+                                vehicle = new Bike(x.get(newVehicle), 
+                                                y.get(newVehicle), 
+                                                speed.get(newVehicle), 
+                                                5, false, mainCanvas, 
+                                                "imgs/" + 
+                                                vehiclePaths.get(newVehicle) 
+                                                + ".png");
+                                mainBike = (Bike) vehicle;
+                        } else {
+                                vehicle = new Car(x.get(newVehicle), 
+                                                y.get(newVehicle), 
+                                                speed.get(newVehicle), 
+                                                5, true, mainCanvas, 
+                                                "imgs/" + 
+                                                vehiclePaths.get(newVehicle) 
+                                                + ".png");
+                        }
+                        
+                        vehicles.add(vehicle);
+                }
         }
 
         /* draw methods called by canvas */
         public void draw(Graphics2D canvas) {
-                drawBackground(canvas);
+                drawBackground(background1, canvas);
+                drawBackground(background2, canvas);
                 drawRoad(canvas);
                 drawVehicles(canvas);
         }
 
         public void drawVehicles(Graphics2D canvas) {
                 for (Vehicle vehicle : vehicles) {
-                        System.out.println("redrawing " + vehicle);
-                        System.out.println("x: " + vehicle.getX());
-
-               
                         vehicle.draw(canvas);
                 }
         }
 
-        public void drawBackground(Graphics2D canvas) {
-                ImageIcon backgroundImg = new ImageIcon(backgroundPath);
-                canvas.drawImage(backgroundImg.getImage(),  0, 0, null);
+        public void drawBackground(Background background, Graphics2D canvas) {
+                canvas.drawImage(background.getBgImage(), background.getX(), 0, null);
         }
         
         public void drawRoad(Graphics2D canvas) {
@@ -62,8 +109,9 @@ public class Model {
                 canvas.setColor(Color.white);
                 int lanesLineX = 0;
 
-                for (int i = 0; i < 10; i++) {
-                        canvas.fillRect(lanesLineX, 510, 100, 6); /* upper */
+                for (int i = 0; i < 9; i++) {
+                        canvas.fillRect(lanesLineX, 510, /* upper lane */
+                                        100, 6); 
                         canvas.fillRect(lanesLineX, 570, 100, 6);
 
                         lanesLineX += 150;
@@ -90,7 +138,7 @@ public class Model {
                 canvas.setColor(new Color(0x4b4b4b));
                 int topLineBottom = 450;
                 int topXVal = 50;
-                for (int i = 0; i < 35; i++) {
+                for (int i = 0; i < 25; i++) {
                         canvas.drawLine(topXVal, 440, topXVal, topLineBottom);
                         topXVal += 50;
                 }
