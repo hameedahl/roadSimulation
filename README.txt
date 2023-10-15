@@ -1,18 +1,19 @@
 ##
-## Assignment: Java3 Fall 2023
+## Assignment: Java4 Fall 2023
 ## Name: Hameedah Lawal 
 ## Email: hlawal01@tufts.edu
 ##
 
 ## PURPOSE
-        > Creates a window with a canvas containing the background and bike 
-          needed for the simulation, a control panel at the bottom which
-          will be used to control components in the scene, and a menubar 
-          (no functionality at the moment).
+        > Creates a window with a canvas containing the background, the player
+          (the bike), other types of vehicles needed for the simulation, and a 
+          control panel at the bottom which can be used to control components 
+          in the scene.
 
 ## USAGE
         > Compile with `javac Main.java Bike.java Button.java Canvas.java 
-                        Controls.java MenuBar.java`
+                        Controls.java MenuBar.java Model.java Background.java
+                        Vehicle.java`
         > Run with `java Main`
 
 ## RULES OF SIMULATION
@@ -21,11 +22,15 @@
 
 ## OBJECTS, INHERITANCES, AND HIERARCHY
         > Main (JFrame)
+                > Model
+                        > Vehicle
+                                > Bike (Vehicle)
+                                > Car (Vehicle)
+                        > Background (Vehicle)
                 > Canvas (JPanel)
-                        > Bike 
                 > Controls (JPanel)
                         > Button (JButton)
-                                > Bike (owned by Canvas)
+                                > Background (owned by Model)
 
 ## CHANGELOG
         > 9/29/23 
@@ -45,4 +50,10 @@
         > 10/13/23
                 => lowered scale
                 => added more lanes
-                => created 
+                => created Vehicle and Model class
+                => created Car and Background subclass and made Bike 
+                   a subclass of Vehicle
+                => added new vehicles to simulation
+                => added scrolling background
+        > 10/20/23
+                =>
