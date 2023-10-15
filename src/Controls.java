@@ -8,39 +8,27 @@
  *  
  */
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
 public class Controls extends JPanel {
-        private int buttonId = 0;
 
         public Controls(Canvas canvas, Model simulationData) {
                 styleControls();
-                Button driveBtn = new Button("Drive", ++buttonId, 
-                                             simulationData.background1, 
-                                             simulationData.background2);
-                Button fasterBtn = new Button("Speed Up", ++buttonId, 
-                                              simulationData.background1, 
-                                              simulationData.background2);
-                Button slowerBtn = new Button("Slow Down", ++buttonId, 
-                                               simulationData.background1, 
-                                               simulationData.background2);
-                Button colorBtn = new Button("Change Bike Color", 
-                                             ++buttonId, 
-                                             simulationData.mainBike);
-                Button breakBtn = new Button("Brake", ++buttonId, 
-                                             simulationData.background1, 
-                                             simulationData.background2);
+                PlayerControls playerPanel = new PlayerControls(canvas, 
+                                                                simulationData);
+                SimControls simPanel = new SimControls(canvas, simulationData);
 
-                add(driveBtn);
-                add(breakBtn);
-                add(fasterBtn);
-                add(slowerBtn);
-                add(colorBtn);
+                add(playerPanel, BorderLayout.LINE_END);
+                add(simPanel, BorderLayout.LINE_START);
         }
 
         private void styleControls() {
-                setBackground(new Color(0xC4C4C4));
+                setBackground(new Color(0xC4C4C9));
+                setPreferredSize(new Dimension(1280, 80));
+                setLayout(new BorderLayout());
         }
 }

@@ -20,7 +20,9 @@ public class Background extends Vehicle {
         Timer timer;
         Canvas canvas;
         String backgroundPath;
-
+        String[] temp = {"bike_blue", "bike_blue1", "bike_blue2", "bike_blue3"};
+        int tempIdx = 0;
+        int row = 0;
 
         public Background(int x, int y, int speed, Canvas canvas, 
                           String backgroundPath) {
@@ -32,11 +34,14 @@ public class Background extends Vehicle {
                 return new ImageIcon(getImagePath()).getImage();
         }
 
+        public String moveBike() {
+                return (temp[++tempIdx % temp.length]) + ".png";
+        }
+
         @Override
         public void actionPerformed(ActionEvent e) {
                 setX(getX() - getSpeed());
-
-                /* place background at the end to loop */
+                /* place second background at the end to loop */
                 if (getX() <= -2132) {
                         setX(2110);
                 }

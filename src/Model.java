@@ -23,7 +23,7 @@ public class Model {
         int bikeIdx = 0;
         /* data for adding vehicles to sim */
         ArrayList<String> vehiclePaths = new ArrayList<String>
-                          (Arrays.asList("bike_blue", 
+                          (Arrays.asList("bikes", 
                                          "bus", "car_blue", "car_grey", 
                                          "jeep", "car_green", 
                                          "cop_car", "fast_car"));
@@ -41,7 +41,7 @@ public class Model {
                           (Arrays.asList(15, 
                                          25, 25, 25,
                                          30, 25,
-                                         60, 60));
+                                         70, 70));
 
         public Model(Canvas canvas) {
                 this.mainCanvas = canvas;
@@ -64,9 +64,7 @@ public class Model {
                                                 y.get(newVehicle), 
                                                 speed.get(newVehicle), 
                                                 5, false, mainCanvas, 
-                                                "imgs/" + 
-                                                vehiclePaths.get(newVehicle) 
-                                                + ".png");
+                                                "imgs/" + vehiclePaths.get(newVehicle) + ".png");
                                 mainBike = (Bike) vehicle;
                         } else {
                                 vehicle = new Car(x.get(newVehicle), 
@@ -92,6 +90,10 @@ public class Model {
 
         public void drawVehicles(Graphics2D canvas) {
                 for (Vehicle vehicle : vehicles) {
+                        if (vehicle == mainBike && background1.isMoving) {
+                                mainBike.animate();
+                                //vehicle.setImagePath("imgs/" + background1.moveBike());
+                        }
                         vehicle.draw(canvas);
                 }
         }
@@ -113,7 +115,6 @@ public class Model {
                         canvas.fillRect(lanesLineX, 510, /* upper lane */
                                         100, 6); 
                         canvas.fillRect(lanesLineX, 570, 100, 6);
-
                         lanesLineX += 150;
                 }
                 drawSideWalk(canvas);
@@ -139,7 +140,8 @@ public class Model {
                 int topLineBottom = 450;
                 int topXVal = 50;
                 for (int i = 0; i < 25; i++) {
-                        canvas.drawLine(topXVal, 440, topXVal, topLineBottom);
+                        canvas.drawLine(topXVal, 440, 
+                                        topXVal, topLineBottom);
                         topXVal += 50;
                 }
         }

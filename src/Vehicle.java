@@ -87,33 +87,26 @@ abstract public class Vehicle implements ActionListener {
         public void brake() {
                 isMoving = false;
                 timer.stop();
-                // timer.setDelay(initSpeed); /* reset speed */
         }
 
-        public void speedUp() {
-                /* keep speed 0 or positive */
-                timer.setDelay(timer.getDelay() -  ((timer.getDelay() - speedChange) < 0 ? 0 : speedChange));
-                //speed += speedChange; /* TODO: set max speed */
+        public void changeSpeed(int speedChange) {
+                /* update speed based on value from slider */
+                speed = initSpeed + speedChange;
+                timer.setDelay(speed);
         }
 
-        public void slowDown() {
-                /* stop car when speed is low */
-                if (timer.getDelay() + speedChange >= 100) { 
-                        brake();
-                } else {
-                        timer.setDelay(timer.getDelay() + speedChange);
-                }
-               // speed -= ((speed - speedChange) < 0 ? 0 : speedChange);
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-                /* set vehicle back to beginning when out of bounds */
+        public void tick() {
+                /* set vehicle back to beginning when out of view */
                 if (getX() >= 1280) { 
                         setX(-3000);
                 }
 
                 setX(getX() + getSpeed());
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+                tick();
                 mainCanvas.repaint();
         }
 }
