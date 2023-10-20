@@ -36,26 +36,15 @@ public class PlayerButton extends JButton implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                // System.out.println(id);
                 switch (id) {
                         case 1:
                                 background1.drive();
                                 background2.drive();
-                                setEnabled(false);
                                 break;
                         case 2:
-                                // background1.speedUp();
-                                // background2.speedUp();
-                                break;
-                        case 3:
-                                // background1.slowDown();
-                                // background2.slowDown();
-
-                                break;
-                        case 4:
                                 bike.changeColor();
                                 break;
-                        case 5:
+                        case 3:
                                 background1.brake();
                                 background2.brake();
                                 break;

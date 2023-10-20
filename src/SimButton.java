@@ -16,49 +16,44 @@ import javax.swing.JButton;
 public class SimButton extends JButton implements ActionListener {
         private int id; 
         private Bike bike;
-        Background background1, background2;
+        Model model;
 
-        public SimButton(String label, int btnId, Bike mainBike) {
+        public SimButton(String label, int btnId, Model model) {
                 setText(label);
                 addActionListener(this);
                 id = btnId;
-                bike = mainBike;
-        }
-
-        public SimButton(String label, int btnId, Background background1, 
-                      Background background2) {
-                setText(label);
-                addActionListener(this);
-                id = btnId;
-                this.background1 = background1;
-                this.background2 = background2;
+                this.model = model;
+                bike = model.mainBike;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                // System.out.println(id);
                 switch (id) {
-                        case 1:
-                                background1.drive();
-                                background2.drive();
-                                // setEnabled(false);
+                        case 1: /* pause */
+                                stopSimVehicles();
                                 break;
-                        case 2:
-                                // background1.speedUp();
-                                // background2.speedUp();
+                        case 2: /* play */
+                                startSimVehicles();
                                 break;
-                        case 3:
-                                // background1.slowDown();
-                                // background2.slowDown();
+                        case 3: /* add */
+                                System.out.println("adding veh");
+                                break;
+                }
+        }
 
-                                break;
-                        case 4:
-                                bike.changeColor();
-                                break;
-                        case 5:
-                                background1.brake();
-                                background2.brake();
-                                break;
+        public void stopSimVehicles() {
+                for (Vehicle vehicle : model.vehicles) {
+                        if (vehicle != bike) {
+                                vehicle.brake();
+                        }
+                }
+        }
+
+        public void startSimVehicles() {
+                for (Vehicle vehicle : model.vehicles) {
+                        if (vehicle != bike) {
+                                vehicle.drive();
+                        }
                 }
         }
 }

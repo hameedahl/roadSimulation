@@ -91,8 +91,7 @@ public class Model {
         public void drawVehicles(Graphics2D canvas) {
                 for (Vehicle vehicle : vehicles) {
                         if (vehicle == mainBike && background1.isMoving) {
-                                mainBike.animate();
-                                //vehicle.setImagePath("imgs/" + background1.moveBike());
+                                mainBike.animate(); /* show "peddling" */
                         }
                         vehicle.draw(canvas);
                 }

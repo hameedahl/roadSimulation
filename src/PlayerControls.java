@@ -14,12 +14,12 @@ public class PlayerControls extends JPanel{
                                              simulationData.background1, 
                                              simulationData.background2);
                 Slider speed = new Slider(0, 100, 0, simulationData.background1, simulationData.background2);
-                PlayerButton fasterBtn = new PlayerButton("Speed Up", ++buttonId, 
-                                              simulationData.background1, 
-                                              simulationData.background2);
-                PlayerButton slowerBtn = new PlayerButton("Slow Down", ++buttonId, 
-                                              simulationData.background1, 
-                                              simulationData.background2);
+                // PlayerButton fasterBtn = new PlayerButton("Speed Up", ++buttonId, 
+                //                               simulationData.background1, 
+                //                               simulationData.background2);
+                // PlayerButton slowerBtn = new PlayerButton("Slow Down", ++buttonId, 
+                //                               simulationData.background1, 
+                //                               simulationData.background2);
                 PlayerButton colorBtn = new PlayerButton("Change Bike Color", 
                                              ++buttonId, 
                                              simulationData.mainBike);
@@ -36,8 +36,8 @@ public class PlayerControls extends JPanel{
                 add(breakBtn);
                 add(speed);
 
-                add(fasterBtn);
-                add(slowerBtn);
+                // add(fasterBtn);
+                // add(slowerBtn);
                 add(colorBtn);
         }
 

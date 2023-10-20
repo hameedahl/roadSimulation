@@ -55,8 +55,8 @@ public class Bike extends Vehicle {
         }
 
         public void draw(Graphics2D canvas) { 
-                canvas.drawImage(bikeSprite.getSubimage(spriteX, spriteY, 100, 73), getX(), 
-                                  getY(), null);
+                canvas.drawImage(bikeSprite.getSubimage(spriteX, spriteY, 
+                                 100, 73), getX(), getY(), null);
         }
 
         public String getColor() {

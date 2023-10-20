@@ -85,14 +85,18 @@ abstract public class Vehicle implements ActionListener {
         }
 
         public void brake() {
+                System.out.println(timer);
                 isMoving = false;
                 timer.stop();
         }
 
         public void changeSpeed(int speedChange) {
                 /* update speed based on value from slider */
-                speed = initSpeed + speedChange;
-                timer.setDelay(speed);
+                int newSpeed = initSpeed + speedChange;
+                System.out.println(newSpeed);
+
+                timer.setDelay(newSpeed);
+                // speed = newSpeed;
         }
 
         public void tick() {

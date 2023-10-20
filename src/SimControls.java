@@ -11,33 +11,30 @@ public class SimControls extends JPanel {
                 styleControls();
                 JLabel title = new JLabel("Simulation Controls");
                 SimButton pause = new SimButton("Pause", ++buttonId, 
-                                         simulationData.background1, 
-                                         simulationData.background2);
+                                         simulationData);
                 SimButton play = new SimButton("Play", ++buttonId, 
-                                         simulationData.background1, 
-                                         simulationData.background2);
+                                         simulationData);
                 Slider speed = new Slider(0, 100, 0, 
-                                          simulationData.background1, 
-                                          simulationData.background2);
+                                          simulationData);
 
                 String[] vehicles = {"Select Vehicle", "jeep", "truck"};
                 DropDown vehicleOptions = new DropDown(vehicles);
                 String[] position = {"Select Lane", "Left Lane", "Middle Lane", 
                                      "Right Lane"};
                 DropDown posOptions = new DropDown(position);
-                Spinner vehicleSpinner = new Spinner(0, 30);
-                SimButton addVehicle = new SimButton("Add Vehicle", ++buttonId, 
-                                simulationData.background1, 
-                                simulationData.background2);
+                // Spinner vehicleSpinner = new Spinner(0, 30);
+                SimButton addVehicle = new SimButton("Add Vehicle", 
+                                                     ++buttonId, 
+                                                     simulationData);
 
-                play.setEnabled(false);
+                // play.setEnabled(false);
                 add(title);
                 add(pause);
                 add(play);
                 add(speed);
                 add(vehicleOptions);
                 add(posOptions);
-                add(vehicleSpinner);
+                // add(vehicleSpinner);
                 add(addVehicle);
         }
 

@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 
 public class Slider extends JSlider implements ChangeListener {
         Background background1, background2;
+        Model model;
 
         public Slider(int minVal, int maxVal, int start, 
                       Background background1, Background background2) {
@@ -22,6 +23,13 @@ public class Slider extends JSlider implements ChangeListener {
                 addChangeListener(this);
                 this.background1 = background1;
                 this.background2 = background2;
+        }
+
+        public Slider(int minVal, int maxVal, int start, Model model) {
+                new JSlider(minVal, maxVal);
+                setValue(0);
+                addChangeListener(this);
+                this.model = model;
         }
 
         public void styleSlider(int textColor, String font, 
@@ -38,9 +46,14 @@ public class Slider extends JSlider implements ChangeListener {
         
         @Override
         public void stateChanged(ChangeEvent e) {
-                int value = Integer.parseInt(String.valueOf(getValue()));
-                System.out.println(value);
-                background1.changeSpeed(value * -1);
-                background2.changeSpeed(value * -1);
+                int value = Integer.parseInt(String.valueOf(getValue())) * -1;
+                if (model != null) { /* called from simulation controls */
+                        for (Vehicle vehicle : model.vehicles) {
+                                vehicle.changeSpeed(value);
+                        }
+                } else {
+                        background1.changeSpeed(value);
+                        background2.changeSpeed(value);
+                }
         }
 }
