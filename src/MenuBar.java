@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java3 Fall 2023
+ *  Assignment: Java5 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  MenuBar to be in used in Main

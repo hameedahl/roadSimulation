@@ -1,3 +1,14 @@
+/*
+
+ *  Assignment: Java5 Fall 2023
+ *  Name: Hameedah Lawal 
+ *  Email: hlawal01@tufts.edu
+ *  Holds player widgets to control and customize the player's 
+ *  vehicle by interacting with Background class (make Bike "move"); 
+ *  to be used by Controls
+ * 
+ */
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;

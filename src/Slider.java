@@ -2,7 +2,8 @@
  *  Assignment: Java5 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
- *  Creates and styles a JSlider
+ *  Get value to change speed of vehicles; to be used by
+ *  SimControls and PlayerControls
  */
 
 import java.awt.Color;

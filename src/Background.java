@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Jav43 Fall 2023
+ *  Assignment: Java5 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Scrolling background; to be used by Model

@@ -3,8 +3,8 @@
  *  Assignment: Java5 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
- *  Buttons to control simulation by interacting with 
- *  Background class (make Bike "move"); to be used in Controls
+ *  Buttons to control the player's vehicle by interacting with 
+ *  Background class (make Bike "move"); to be used in PlayerControls
  * 
  */
 

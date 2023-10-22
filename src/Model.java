@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java4 Fall 2023
+ *  Assignment: Java5 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Holds data for the simulation and keeps track 

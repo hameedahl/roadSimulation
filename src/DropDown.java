@@ -1,8 +1,8 @@
 /*
- *  Assignment: Java1 Fall 2023
+ *  Assignment: Java5 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
- *  Creates and styles a JComboBox
+ *  Dropdown box to be used in SimControls to display new vehicles
  */
 
 import java.awt.Color;

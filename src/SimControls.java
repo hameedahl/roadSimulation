@@ -1,3 +1,13 @@
+/*
+
+ *  Assignment: Java5 Fall 2023
+ *  Name: Hameedah Lawal 
+ *  Email: hlawal01@tufts.edu
+ *  Holds simulation widgets to control and customize the simulation 
+ *  (change speed, add new vehicles, etc.); to be used by Controls
+ * 
+ */
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
