@@ -15,33 +15,40 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Model {
-        ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+        ArrayList<Vehicle> vehiclesLeft = new ArrayList<Vehicle>();
+        ArrayList<Vehicle> vehiclesMiddle = new ArrayList<Vehicle>();
+        ArrayList<Vehicle> vehiclesRight = new ArrayList<Vehicle>();
+        int vehicleCount = 0;
+
         Bike mainBike;
         String backgroundPath = "imgs/background.png";
         Canvas mainCanvas;
         Background background1, background2;
         int bikeIdx = 0;
+        boolean isPaused = false;
+
         /* data for adding vehicles to sim */
         ArrayList<String> vehiclePaths = new ArrayList<String>
-                          (Arrays.asList("bikes", 
-                                         "bus", "car_blue", "car_grey", 
-                                         "jeep", "car_green", 
-                                         "cop_car", "fast_car"));
-        ArrayList<Integer> x = new ArrayList<Integer>
-                          (Arrays.asList(550, 
-                                         -500, 100, 490, 
-                                         50, -250,
-                                         100, 490));
-        ArrayList<Integer> y = new ArrayList<Integer>
-                          (Arrays.asList(360, 
-                                         330, 380, 
-                                         380, 450, 450,
-                                         510, 510));
+                         (Arrays.asList("bus", "car_blue", "car_grey",
+                                        "jeep", "car_green",
+                                        "cop_car", "fast_car"));
+        ArrayList<Integer> xVal = new ArrayList<Integer>
+                                (Arrays.asList(-500, 100, 490,
+                                                50, -250,
+                                                100, 490));
+        ArrayList<Integer> yVal = new ArrayList<Integer>
+                                (Arrays.asList(330, 380, 380,
+                                               450, 450,
+                                               510, 510));
         ArrayList<Integer> speed = new ArrayList<Integer>
-                          (Arrays.asList(15, 
-                                         25, 25, 25,
-                                         30, 25,
-                                         70, 70));
+                                 (Arrays.asList(25, 25, 25,
+                                                30, 25, 
+                                                70, 70));   
+
+        String[] newVehiclePaths = {"sports_car", "red_vintage", 
+                                    "black_vintage", "sliver_hatchback",
+                                    "blue_sport_sedan", "motorcycle_red", 
+                                    "motorcycle_black"};
 
         public Model(Canvas canvas) {
                 this.mainCanvas = canvas;
@@ -54,29 +61,27 @@ public class Model {
         }
 
         public void createVehicles() {
+                /* add bike to sidewalk */
+                mainBike = new Bike(550, 360, 15, 5, false, mainCanvas, 
+                                    "imgs/bike.png");
+                // vehiclesLeft.add(mainBike);
+
+                vehicleCount = vehiclePaths.size();
                 /* add cars to each lane */
-                for (int newVehicle = 0; newVehicle < vehiclePaths.size(); 
-                     newVehicle++) {
-                        Vehicle vehicle;
-                        if (newVehicle == bikeIdx) {
-                                /* store player bike in instance variable */
-                                vehicle = new Bike(x.get(newVehicle), 
-                                                y.get(newVehicle), 
-                                                speed.get(newVehicle), 
-                                                5, false, mainCanvas, 
-                                                "imgs/" + vehiclePaths.get(newVehicle) + ".png");
-                                mainBike = (Bike) vehicle;
+                for (int i = 0; i < vehicleCount; i++) {
+                        Vehicle vehicle = new Car(xVal.get(i), yVal.get(i), 
+                                                  speed.get(i), 5, true, 
+                                                  mainCanvas, 
+                                                  "imgs/" + 
+                                                  vehiclePaths.get(i) + 
+                                                  ".png");
+                        if (yVal.get(i) == 330 || yVal.get(i) == 380) {
+                                vehiclesLeft.add(vehicle);
+                        } else if (yVal.get(i) == 450) {
+                                vehiclesMiddle.add(vehicle);
                         } else {
-                                vehicle = new Car(x.get(newVehicle), 
-                                                y.get(newVehicle), 
-                                                speed.get(newVehicle), 
-                                                5, true, mainCanvas, 
-                                                "imgs/" + 
-                                                vehiclePaths.get(newVehicle) 
-                                                + ".png");
+                                vehiclesRight.add(vehicle);
                         }
-                        
-                        vehicles.add(vehicle);
                 }
         }
 
@@ -89,16 +94,28 @@ public class Model {
         }
 
         public void drawVehicles(Graphics2D canvas) {
-                for (Vehicle vehicle : vehicles) {
-                        if (vehicle == mainBike && background1.isMoving) {
-                                mainBike.animate(); /* show "peddling" */
-                        }
+                if (background1.isMoving) {
+                        mainBike.animate(); /* show "peddling" */
+                }
+                mainBike.draw(canvas);
+
+                /* draw vehicles in order of lane for layering */
+                for (Vehicle vehicle : vehiclesLeft) {
+                        vehicle.draw(canvas);
+                }
+
+                for (Vehicle vehicle : vehiclesMiddle) {
+                        vehicle.draw(canvas);
+                }
+
+                for (Vehicle vehicle : vehiclesRight) {
                         vehicle.draw(canvas);
                 }
         }
 
         public void drawBackground(Background background, Graphics2D canvas) {
-                canvas.drawImage(background.getBgImage(), background.getX(), 0, null);
+                canvas.drawImage(background.getBgImage(), 
+                                 background.getX(), 0, null);
         }
         
         public void drawRoad(Graphics2D canvas) {
@@ -127,8 +144,10 @@ public class Model {
                 canvas.drawRect(0, 440, 1280, 10);
 
                 canvas.setColor(new Color(0x919191));
-                canvas.fillRect(0, 420, 1280, 20); /* top sidewalk */
-                canvas.fillRect(0, 630, 1280, 40); /* bottom sidewalk */
+                /* top sidewalk */
+                canvas.fillRect(0, 420, 1280, 20);
+                /* bottom sidewalk */ 
+                canvas.fillRect(0, 630, 1280, 40);
 
                 canvas.setColor(new Color(0x383838));
                 canvas.drawRect(0, 420, 1280, 20);
@@ -143,5 +162,38 @@ public class Model {
                                         topXVal, topLineBottom);
                         topXVal += 50;
                 }
+        }
+
+        public void stopSimVehicles() {
+                isPaused = true;
+                for (Vehicle vehicle : vehiclesLeft) { vehicle.brake(); }
+                for (Vehicle vehicle : vehiclesRight) { vehicle.brake(); }
+                for (Vehicle vehicle : vehiclesMiddle) { vehicle.brake(); }
+        }
+
+        public void startSimVehicles() {
+                isPaused = false;
+                for (Vehicle vehicle : vehiclesLeft) { vehicle.drive(); }
+                for (Vehicle vehicle : vehiclesRight) { vehicle.drive(); }
+                for (Vehicle vehicle : vehiclesMiddle) { vehicle.drive(); }
+        }
+
+        public void addSimVehicle(int vehicleIndex, int positionIndex, 
+                                  int vehicleSpeed) {
+                String newVehPath = newVehiclePaths[vehicleIndex - 1];
+                Vehicle vehicle = new Car(-500, 0, vehicleSpeed, 5, 
+                                 true, mainCanvas, 
+                                          "imgs/" + newVehPath + ".png");
+                if (positionIndex == 1) { /* left */
+                        vehicle.setY(380);
+                        vehiclesLeft.add(vehicle);
+                } else if (positionIndex == 2) { /* middle */
+                        vehicle.setY(450);
+                        vehiclesMiddle.add(vehicle);
+                } else { /* right */
+                        vehicle.setY(510);
+                        vehiclesRight.add(vehicle);
+                }
+                mainCanvas.repaint();
         }
 }

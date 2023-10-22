@@ -6,35 +6,44 @@ import javax.swing.JPanel;
 
 public class SimControls extends JPanel {
         private int buttonId = 0;
+        SimButton pause, play, addVehicle;
+        Slider speed;
+        DropDown vehicleOptions, posOptions;
+        Spinner vehicleSpeed;
+        String[] newVehicles = {"Select Vehicle", "Sports Car", 
+                                "Red Vintage Coupe", "Black Vintage Coupe",
+                                "Sliver Hatchback", "Sport Sedan",
+                                "Red Motorcycle", "Black Motorcycle"},
+                 positions   = {"Select Lane", "Left Lane", "Middle Lane",
+                                "Right Lane"};
+        Model model;
 
-        SimControls(Canvas canvas, Model simulationData) {
+        SimControls(Canvas canvas, Model simulationData) {      
+                this.model = simulationData;
                 styleControls();
                 JLabel title = new JLabel("Simulation Controls");
-                SimButton pause = new SimButton("Pause", ++buttonId, 
-                                         simulationData);
-                SimButton play = new SimButton("Play", ++buttonId, 
-                                         simulationData);
-                Slider speed = new Slider(0, 100, 0, 
-                                          simulationData);
+                pause = new SimButton("Pause", ++buttonId, 
+                                      model, this);
+                play = new SimButton("Play", ++buttonId, 
+                                     model, this);
+                speed = new Slider(0, 100, 0, 
+                                   model);
+                vehicleOptions = new DropDown(newVehicles);
+                posOptions = new DropDown(positions);
+                vehicleSpeed = new Spinner(0, 30);
+                vehicleSpeed.setValue(25);
+                addVehicle = new SimButton("Add Vehicle", ++buttonId, 
+                                           model, this);
 
-                String[] vehicles = {"Select Vehicle", "jeep", "truck"};
-                DropDown vehicleOptions = new DropDown(vehicles);
-                String[] position = {"Select Lane", "Left Lane", "Middle Lane", 
-                                     "Right Lane"};
-                DropDown posOptions = new DropDown(position);
-                // Spinner vehicleSpinner = new Spinner(0, 30);
-                SimButton addVehicle = new SimButton("Add Vehicle", 
-                                                     ++buttonId, 
-                                                     simulationData);
+                play.setEnabled(false); /* sim starts of on play */
 
-                // play.setEnabled(false);
                 add(title);
                 add(pause);
                 add(play);
                 add(speed);
                 add(vehicleOptions);
                 add(posOptions);
-                // add(vehicleSpinner);
+                add(vehicleSpeed);
                 add(addVehicle);
         }
 

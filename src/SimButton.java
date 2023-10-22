@@ -15,45 +15,42 @@ import javax.swing.JButton;
 
 public class SimButton extends JButton implements ActionListener {
         private int id; 
-        private Bike bike;
+        SimControls controls;
         Model model;
 
-        public SimButton(String label, int btnId, Model model) {
+        public SimButton(String label, int btnId, Model model, 
+                         SimControls controls) {
                 setText(label);
                 addActionListener(this);
                 id = btnId;
                 this.model = model;
-                bike = model.mainBike;
+                this.controls = controls;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
                 switch (id) {
                         case 1: /* pause */
-                                stopSimVehicles();
+                                controls.play.setEnabled(true);
+                                controls.pause.setEnabled(false);
+                                controls.speed.setEnabled(false);
+                                model.stopSimVehicles();
                                 break;
                         case 2: /* play */
-                                startSimVehicles();
+                                controls.speed.setEnabled(true);
+                                controls.play.setEnabled(false);
+                                controls.pause.setEnabled(true);
+                                model.startSimVehicles();
                                 break;
                         case 3: /* add */
-                                System.out.println("adding veh");
+                                int vehIndex = controls.vehicleOptions.getSelectedIndex();
+                                int posIndex = controls.posOptions.getSelectedIndex();
+                                /* only add if option is selected */
+                                if (vehIndex != 0 && posIndex != 0) {
+                                        model.addSimVehicle(vehIndex, posIndex, 
+                                                            Integer.parseInt(controls.vehicleSpeed.getValue().toString()));
+                                }
                                 break;
-                }
-        }
-
-        public void stopSimVehicles() {
-                for (Vehicle vehicle : model.vehicles) {
-                        if (vehicle != bike) {
-                                vehicle.brake();
-                        }
-                }
-        }
-
-        public void startSimVehicles() {
-                for (Vehicle vehicle : model.vehicles) {
-                        if (vehicle != bike) {
-                                vehicle.drive();
-                        }
                 }
         }
 }

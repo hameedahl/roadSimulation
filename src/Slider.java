@@ -1,5 +1,5 @@
 /*
- *  Assignment: Java1 Fall 2023
+ *  Assignment: Java5 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Creates and styles a JSlider
@@ -48,8 +48,16 @@ public class Slider extends JSlider implements ChangeListener {
         public void stateChanged(ChangeEvent e) {
                 int value = Integer.parseInt(String.valueOf(getValue())) * -1;
                 if (model != null) { /* called from simulation controls */
-                        for (Vehicle vehicle : model.vehicles) {
-                                vehicle.changeSpeed(value);
+                        for (Vehicle vehicle : model.vehiclesLeft) { 
+                                vehicle.changeSpeed(value); 
+                        }
+
+                        for (Vehicle vehicle : model.vehiclesRight) { 
+                                vehicle.changeSpeed(value); 
+                        }
+                        
+                        for (Vehicle vehicle : model.vehiclesMiddle) { 
+                                vehicle.changeSpeed(value); 
                         }
                 } else {
                         background1.changeSpeed(value);

@@ -85,7 +85,6 @@ abstract public class Vehicle implements ActionListener {
         }
 
         public void brake() {
-                System.out.println(timer);
                 isMoving = false;
                 timer.stop();
         }
@@ -93,7 +92,6 @@ abstract public class Vehicle implements ActionListener {
         public void changeSpeed(int speedChange) {
                 /* update speed based on value from slider */
                 int newSpeed = initSpeed + speedChange;
-                System.out.println(newSpeed);
 
                 timer.setDelay(newSpeed);
                 // speed = newSpeed;
