@@ -18,7 +18,8 @@ public class SimControls extends JPanel {
         private int buttonId = 0;
         SimButton pause, play, addVehicle;
         Slider speed;
-        DropDown vehicleOptions, posOptions;
+        ScrollList vehicleOptions;
+        DropDown posOptions;
         Spinner vehicleSpeed;
         String[] newVehicles = {"Select Vehicle", "Sports Car", 
                                 "Red Vintage Coupe", "Black Vintage Coupe",
@@ -38,7 +39,7 @@ public class SimControls extends JPanel {
                                      model, this);
                 speed = new Slider(0, 100, 0, 
                                    model);
-                vehicleOptions = new DropDown(newVehicles);
+                vehicleOptions = new ScrollList(newVehicles);
                 posOptions = new DropDown(positions);
                 vehicleSpeed = new Spinner(0, 30);
                 vehicleSpeed.setValue(25);

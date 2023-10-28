@@ -18,17 +18,19 @@ public class PlayerButton extends JButton implements ActionListener {
         private Bike bike;
         Background background1, background2;
         PlayerControls controls;
+        Model model;
 
-        public PlayerButton(String label, int btnId, Bike mainBike, 
-                            Background background1, Background background2, 
-                            PlayerControls controls) {
+
+        public PlayerButton(String label, int btnId, PlayerControls controls, 
+                            Model model) {
                 setText(label);
                 addActionListener(this);
                 id = btnId;
-                bike = mainBike;
-                this.background1 = background1;
-                this.background2 = background2;
+                bike = model.mainBike;
+                this.background1 = model.background1;
+                this.background2 = model.background2;
                 this.controls = controls;
+                this.model = model;
         }
 
         @Override
@@ -50,6 +52,13 @@ public class PlayerButton extends JButton implements ActionListener {
                                 controls.breakBtn.setEnabled(false);
                                 background1.brake();
                                 background2.brake();
+                                break;
+                        case 4: /* change lanes */
+                                break;
+                        case 5: /* speed up */
+                                model.selectedVehicle.changeSpeed(5 *-1);
+                                break;
+                        case 6: /* slow down */
                                 break;
                 }
         }

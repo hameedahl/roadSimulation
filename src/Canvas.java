@@ -8,11 +8,17 @@
  */
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import javax.swing.*;
 
-public class Canvas extends JPanel {
+public class Canvas extends JPanel implements MouseListener {
         public Graphics2D canvasG;
         Model model;
+
+        Canvas () {
+                addMouseListener(this);
+        }
 
         public void setModel(Model model) {
                 this.model = model;
@@ -25,4 +31,18 @@ public class Canvas extends JPanel {
                 super.paintComponent(canvasG); 
                 model.draw(canvasG);
         }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+                model.checkMouse(e.getPoint());
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {}
+        @Override
+        public void mouseReleased(MouseEvent e) {}
+        @Override
+        public void mouseEntered(MouseEvent e) {}
+        @Override
+        public void mouseExited(MouseEvent e) {}
 }

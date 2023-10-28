@@ -19,35 +19,44 @@ import javax.swing.JPanel;
 public class PlayerControls extends JPanel{
         private int buttonId = 0;
         PlayerButton driveBtn, colorBtn, breakBtn;
+        PlayerButton changeLanesBtn, speedBtn, slowBtn;
+
         Slider speed;
 
         PlayerControls(Canvas canvas, Model simulationData) {
                 styleControls();
-                JLabel title = new JLabel("Player Controls");
+                JLabel playerJLabel = new JLabel("Player Controls");
                 driveBtn = new PlayerButton("Drive", ++buttonId, 
-                                             simulationData.mainBike,
-                                             simulationData.background1, 
-                                             simulationData.background2, this);
+                                            this, simulationData);
                 speed = new Slider(0, 100, 0, 
                                           simulationData.background1, 
                                           simulationData.background2);
                 colorBtn = new PlayerButton("Change Bike Color", 
                                             ++buttonId, 
-                                            simulationData.mainBike, 
-                                            simulationData.background1, 
-                                            simulationData.background2, this);
+                                            this, simulationData);
                 breakBtn = new PlayerButton("Brake", ++buttonId, 
-                                            simulationData.mainBike,
-                                            simulationData.background1, 
-                                            simulationData.background2, this);
+                                            this, simulationData);
+
+                JLabel selectedJLabel = new JLabel("Selected Controls");
+
+                changeLanesBtn = new PlayerButton("Change Lanes", ++buttonId, 
+                                            this, simulationData);
+                speedBtn = new PlayerButton("Speed Up", ++buttonId, 
+                                            this, simulationData);
+                slowBtn = new PlayerButton("Slow Down", ++buttonId, 
+                                            this, simulationData);
 
                 breakBtn.setEnabled(false);
                 speed.setEnabled(false);
-                add(title);
+                add(playerJLabel);
                 add(driveBtn);
                 add(breakBtn);
                 add(speed);
                 add(colorBtn);
+                add(selectedJLabel);
+                add(changeLanesBtn);
+                add(slowBtn);
+                add(speedBtn);
         }
 
         private void styleControls() {

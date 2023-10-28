@@ -22,6 +22,7 @@ public class Controls extends JPanel {
                                                                 simulationData);
                 SimControls simPanel = new SimControls(canvas, simulationData);
 
+
                 add(playerPanel, BorderLayout.LINE_END);
                 add(simPanel, BorderLayout.LINE_START);
         }

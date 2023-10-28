@@ -11,6 +11,8 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -26,6 +28,7 @@ public class Model {
         Background background1, background2;
         int bikeIdx = 0;
         boolean isPaused = false;
+        Vehicle selectedVehicle;
 
         /* data for adding vehicles to sim */
         ArrayList<String> vehiclePaths = new ArrayList<String>
@@ -58,6 +61,7 @@ public class Model {
                 background2 = new Background(2132,0, 15, 
                                              mainCanvas, backgroundPath);
                 createVehicles();
+                selectedVehicle = new Car(0, 0, 0, 0, false, mainCanvas, "");
         }
 
         public void createVehicles() {
@@ -196,4 +200,34 @@ public class Model {
                 }
                 mainCanvas.repaint();
         }
+
+        public void checkMouse(Point e) {
+                Vehicle newVehicle = new Car(0, 0, 0, 0, false, mainCanvas, "");
+                for (Vehicle vehicle : vehiclesLeft) { 
+                        if (vehicle.wasClicked(e)) {
+                                newVehicle = vehicle;
+                                System.out.println(vehicle.imagePath);
+                        } 
+                }
+                for (Vehicle vehicle : vehiclesRight) { 
+                        if (vehicle.wasClicked(e)) {
+                                newVehicle = vehicle;
+                                System.out.println(vehicle.imagePath);
+                        } 
+                 }
+                for (Vehicle vehicle : vehiclesMiddle) { 
+                        if (vehicle.wasClicked(e)) {
+                                newVehicle = vehicle;
+                                System.out.println(vehicle.imagePath);
+                        }  
+                }
+
+                selectedVehicle.isSelected = false;
+                selectedVehicle = newVehicle;
+                selectedVehicle.isSelected = true;
+                mainCanvas.repaint();
+
+        }
 }
+
+// check for collision in tick

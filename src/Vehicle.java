@@ -8,7 +8,12 @@
  * 
  */
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -25,6 +30,8 @@ abstract public class Vehicle implements ActionListener {
         private Timer timer;
         private Canvas mainCanvas;
         public  String imagePath;
+        private Rectangle hitBox;
+        public  boolean isSelected = false;
 
         public Vehicle (int x, int y, int speed, int speedChange, 
                         boolean isMoving, Canvas canvas, String imagePath) {
@@ -37,12 +44,24 @@ abstract public class Vehicle implements ActionListener {
                 this.timer = new Timer(initSpeed, this);
                 this.imagePath = imagePath;
                 if (isMoving) { drive(); }
+                this.hitBox = new Rectangle (x, y, 100, 100); 
         }
 
         public void draw(Graphics2D canvas) {
-                canvas.drawImage((new ImageIcon(imagePath)).getImage(), getX(), 
+                Image img = new ImageIcon(imagePath).getImage();
+                canvas.drawImage(img, getX(), 
                                   getY(), null);
-        }
+                canvas.setPaint(new Color(0,0,0,0));
+                if (isSelected) {
+                        canvas.setStroke(new BasicStroke(2));
+                        canvas.setPaint(Color.red); /* add red boarder on click */
+                } 
+                hitBox.x = getX();
+                hitBox.y = getY();
+                hitBox.width = img.getWidth(null);
+                hitBox.height = img.getHeight(null);
+                canvas.draw(hitBox);
+        } 
 
         public void setImagePath(String path) {
                 imagePath = path;
@@ -104,6 +123,14 @@ abstract public class Vehicle implements ActionListener {
                 }
 
                 setX(getX() + getSpeed());
+        }
+
+        public boolean wasClicked(Point p) {
+                return hitBox.contains(p);
+        }
+
+        public void checkForCollision() {
+
         }
 
         @Override

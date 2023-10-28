@@ -43,7 +43,7 @@ public class SimButton extends JButton implements ActionListener {
                                 model.startSimVehicles();
                                 break;
                         case 3: /* add */
-                                int vehIndex = controls.vehicleOptions.getSelectedIndex();
+                                int vehIndex = controls.vehicleOptions.scrollList.getSelectedIndex();
                                 int posIndex = controls.posOptions.getSelectedIndex();
                                 /* only add if option is selected */
                                 if (vehIndex != 0 && posIndex != 0) {

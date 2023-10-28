@@ -7,7 +7,11 @@
  * 
  */
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+
 import javax.swing.ImageIcon;
 
 public class Car extends Vehicle {
@@ -16,6 +20,7 @@ public class Car extends Vehicle {
         private int yLocation;
         private String imagePath;
         Canvas mainCanvas;
+        Rectangle hitBox; 
 
         public Car(int x, int y, int speed, int speedChange, boolean isMoving, 
                    Canvas canvas, String imagePath) {
@@ -24,10 +29,8 @@ public class Car extends Vehicle {
                 this.xLocation = x;
                 this.yLocation = y;
                 this.imagePath = imagePath;
+                this.hitBox = new Rectangle (x, y, 100, 100); 
         }
 
-        public void draw(Graphics2D canvas) {
-                canvas.drawImage((new ImageIcon(imagePath)).getImage(), getX(), 
-                                  getY(), null);
-        } 
+
 }

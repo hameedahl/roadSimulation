@@ -22,18 +22,15 @@ public class Main extends JFrame {
         public Main () {
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 setLayout(new BorderLayout());
-                setSize(1280, 740);
+                setSize(1280, 780);
 
-                // MenuBar menu = new MenuBar();
-                // setJMenuBar(menu);
                 Canvas canvas = new Canvas(); /* canvas for ui */ 
                 Model simulationData = new Model(canvas);
-                canvas.setModel(simulationData);
                 Controls controlPanel = new Controls(canvas, simulationData);
+                canvas.setModel(simulationData);
 
                 add(canvas); 
                 add(controlPanel, BorderLayout.PAGE_END);
-
                 setVisible(true);
         }
 }
