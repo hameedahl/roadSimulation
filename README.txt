@@ -1,5 +1,5 @@
 ##
-## Assignment: Java4 Fall 2023
+## Assignment: Java5 Fall 2023
 ## Name: Hameedah Lawal 
 ## Email: hlawal01@tufts.edu
 ##
@@ -11,14 +11,17 @@
           in the scene.
 
 ## USAGE
-        > Compile with `javac Main.java Bike.java Button.java Canvas.java 
-                        Controls.java MenuBar.java Model.java Background.java
-                        Vehicle.java`
+        > Compile with `javac Background.java Controls.java Model.java 
+                        SimControls.java Bike.java DropDown.java 
+                        PlayerButton.java Slider.java Canvas.java Main.java
+                        PlayerControls.java Spinner.java Car.java MenuBar.java
+                        SimButton.java Vehicle.java`
         > Run with `java Main`
 
 ## RULES OF SIMULATION
-        > At the moment, there aren't any rules, users can drive and change 
-          the speed and bike color
+        > users can drive and change the speed and bike color
+        > add new vehicles to the simulation by picking a car, lane, and
+          initial speed, then hit "add vehicle"
 
 ## OBJECTS, INHERITANCES, AND HIERARCHY
         > Main (JFrame)
@@ -26,12 +29,20 @@
                         > Vehicle
                                 > Bike (Vehicle)
                                 > Car (Vehicle)
-                        > Background (Vehicle)
+                                > Background (Vehicle)
                 > Canvas (JPanel)
                 > Controls (JPanel)
-                        > Button (JButton)
-                                > Background (owned by Model)
-
+                        > SimControls (Controls)
+                                > SimButton (Button)
+                                        > Background (owned by Model)
+                                > Slider (JSlider)
+                                > DropDown (JComboBox)
+                                > Spinner (JSpinner)
+                        > PlayerControls (Controls)
+                                > PlayerButton (Button) 
+                                        > Background (owned by Model)
+                                > Slider (JSlider)
+                                
 ## CHANGELOG
         > 9/29/23 
                 => created window, painted "sky" background and road
@@ -56,4 +67,6 @@
                 => added new vehicles to simulation
                 => added scrolling background
         > 10/20/23
-                =>  
+                => added simulation controls
+                => new cars can be added to the simulation 
+                => disabled/enabled buttons when interacted with
