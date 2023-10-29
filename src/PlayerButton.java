@@ -1,6 +1,6 @@
 /*
 
- *  Assignment: Java5 Fall 2023
+ *  Assignment: Java6 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Buttons to control the player's vehicle by interacting with 
@@ -35,18 +35,19 @@ public class PlayerButton extends JButton implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+                Vehicle v = model.selectedVehicle;
                 switch (id) {
-                        case 1:
+                        case 1: /* drive */
                                 controls.driveBtn.setEnabled(false);
                                 controls.breakBtn.setEnabled(true);
                                 controls.speed.setEnabled(true);
                                 background1.drive();
                                 background2.drive();
                                 break;
-                        case 2:
+                        case 2: /* change color */
                                 bike.changeColor();
                                 break;
-                        case 3:
+                        case 3: /* brake */
                                 controls.speed.setEnabled(false);
                                 controls.driveBtn.setEnabled(true);
                                 controls.breakBtn.setEnabled(false);
@@ -54,16 +55,22 @@ public class PlayerButton extends JButton implements ActionListener {
                                 background2.brake();
                                 break;
                         case 4: /* change lanes */
-                                model.changeLanes(model.selectedVehicle);
+                                model.changeLanes(v, true);
                                 break;
                         case 5: /* speed up */
-                                model.selectedVehicle.setSpeed(model.selectedVehicle.getSpeed() + 5);
+                                v.setSpeed(v.getSpeed() + 5);
+                                model.statePanel.updateSelected(v.name, 
+                                                                model.lanes[v.lane],
+                                                                v.getSpeed());
                                 break;
                         case 6: /* slow down */
-                                model.selectedVehicle.setSpeed(model.selectedVehicle.getSpeed() - 5);
+                                v.setSpeed(v.getSpeed() - 5);
+                                model.statePanel.updateSelected(v.name, 
+                                                                model.lanes[v.lane],
+                                                                v.getSpeed());
                                 break;
                         case 7: /* remove */
-                                model.removeVehicle(model.selectedVehicle);
+                                model.removeVehicle(model.selectedVehicle, false);
                                 break;
                 }
         }

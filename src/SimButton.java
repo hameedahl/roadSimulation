@@ -1,6 +1,6 @@
 /*
 
- *  Assignment: Java5 Fall 2023
+ *  Assignment: Java6 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Buttons to control the simulation vehicle by interacting with 
@@ -33,6 +33,7 @@ public class SimButton extends JButton implements ActionListener {
                         case 1: /* pause */
                                 controls.play.setEnabled(true);
                                 controls.pause.setEnabled(false);
+                                controls.addVehicle.setEnabled(false);
                                 controls.speed.setEnabled(false);
                                 model.stopSimVehicles();
                                 break;
@@ -40,16 +41,16 @@ public class SimButton extends JButton implements ActionListener {
                                 controls.speed.setEnabled(true);
                                 controls.play.setEnabled(false);
                                 controls.pause.setEnabled(true);
+                                controls.addVehicle.setEnabled(true);
                                 model.startSimVehicles();
                                 break;
-                        case 3: /* add */
+                        case 3: /* add new vehicle */
                                 int vehIndex = controls.vehicleOptions.scrollList.getSelectedIndex();
+                                String name = controls.vehicleOptions.scrollList.getSelectedValue();
                                 int posIndex = controls.posOptions.getSelectedIndex();
                                 /* only add if option is selected */
-                                if (vehIndex != 0 && posIndex != 0) {
-                                        model.addSimVehicle(vehIndex, posIndex, 
-                                                            Integer.parseInt(controls.vehicleSpeed.getValue().toString()));
-                                }
+                                model.addSimVehicle(name, vehIndex, posIndex, 
+                                                    Integer.parseInt(controls.vehicleSpeed.getValue().toString()));
                                 break;
                 }
         }

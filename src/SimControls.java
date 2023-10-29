@@ -1,6 +1,6 @@
 /*
 
- *  Assignment: Java5 Fall 2023
+ *  Assignment: Java6 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Holds simulation widgets to control and customize the simulation 
@@ -13,6 +13,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class SimControls extends JPanel {
         private int buttonId = 0;
@@ -20,13 +22,7 @@ public class SimControls extends JPanel {
         Slider speed;
         ScrollList vehicleOptions;
         DropDown posOptions;
-        Spinner vehicleSpeed;
-        String[] newVehicles = {"Select Vehicle", "Sports Car", 
-                                "Red Vintage Coupe", "Black Vintage Coupe",
-                                "Sliver Hatchback", "Sport Sedan",
-                                "Red Motorcycle", "Black Motorcycle"},
-                 positions   = {"Select Lane", "Left Lane", "Middle Lane",
-                                "Right Lane"};
+        JSpinner vehicleSpeed;
         Model model;
 
         SimControls(Canvas canvas, Model simulationData) {      
@@ -36,10 +32,9 @@ public class SimControls extends JPanel {
                 pause = new SimButton("Pause", ++buttonId, model, this);
                 play = new SimButton("Play", ++buttonId, model, this);
                 speed = new Slider(0, 84, 0, model);
-                vehicleOptions = new ScrollList(newVehicles);
-                posOptions = new DropDown(positions);
-                vehicleSpeed = new Spinner(0, 30);
-                vehicleSpeed.setValue(25);
+                vehicleOptions = new ScrollList(model.newVehicles);
+                posOptions = new DropDown(model.lanes);
+                vehicleSpeed = new JSpinner(new SpinnerNumberModel(25, 0, 300, 1));
                 addVehicle = new SimButton("Add Vehicle", ++buttonId, 
                                            model, this);
 

@@ -1,41 +1,58 @@
+/*
+ *  
+ *  Assignment: Java6 Fall 2023
+ *  Name: Hameedah Lawal 
+ *  Email: hlawal01@tufts.edu
+ *  Keep tracks of collisions between vehicles and updates the score and
+ *  collision count accordingly; to be used by Model
+ * 
+ */
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.Timer;
 
 public class CollisionDetection implements ActionListener {
-        int accidents = 0;
-        ArrayList<Vehicle> vehiclesL, vehiclesM, vehiclesR;
+        int collisions = 0;
         StatePanel statePanel;
+        Model model;
         CollisionDetection(Model model, StatePanel statePanel) {
                 new Timer(280, this).start();
-                this.vehiclesL = model.vehiclesLeft;
-                this.vehiclesM = model.vehiclesMiddle;
-                this.vehiclesR = model.vehiclesRight;
                 this.statePanel = statePanel;
+                this.model = model;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < vehiclesL.size(); i++) {
-                        for (int j = i + 1; j < vehiclesL.size(); j++) {
-                                if (vehiclesL.get(i).checkForCollision(vehiclesL.get(j))) { accidents++; };
+                for (int i = 0; i < model.vehiclesLeft.size(); i++) {
+                        for (int j = i + 1; j < model.vehiclesLeft.size(); j++) {
+                                if (model.vehiclesLeft.get(i).checkForCollision(model.vehiclesLeft.get(j),  model)) { 
+                                        collisions++;
+                                        model.score -= 10;
+                                }
                         }
                 }
 
-                for (int i = 0; i < vehiclesM.size(); i++) {
-                        for (int j = i + 1; j < vehiclesM.size(); j++) {
-                                if (vehiclesL.get(i).checkForCollision(vehiclesL.get(j))) { accidents++; };
+                for (int i = 0; i < model.vehiclesMiddle.size(); i++) {
+                        for (int j = i + 1; j < model.vehiclesMiddle.size(); j++) {
+                                if (model.vehiclesMiddle.get(i).checkForCollision(model.vehiclesMiddle.get(j), model)) { 
+                                        collisions++;
+                                        model.score -= 10;
+                                }
                         }
                 }
 
-                for (int i = 0; i < vehiclesR.size(); i++) {
-                        for (int j = i + 1; j < vehiclesR.size(); j++) {
-                                if (vehiclesR.get(i).checkForCollision(vehiclesR.get(j))) { accidents++; };
+                for (int i = 0; i < model.vehiclesRight.size(); i++) {
+                        for (int j = i + 1; j < model.vehiclesRight.size(); j++) {
+                                if (model.vehiclesRight.get(i).checkForCollision(model.vehiclesRight.get(j),  model)) { 
+                                        collisions++;
+                                        model.score -= 10;
+                                }
                         }
                 }
-                statePanel.collisionLabel.setText("Total Accidents: " + accidents);
-                
+                statePanel.updateAccidentCount(collisions);
+                model.score = (model.score < 0) ? 0: model.score;
+                statePanel.updateScore(model.score); 
         }
 }

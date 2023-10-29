@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java5 Fall 2023
+ *  Assignment: Java6 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Holds data for the simulation and keeps track 
@@ -13,13 +13,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Model {
         ArrayList<Vehicle> vehiclesLeft = new ArrayList<Vehicle>();
         ArrayList<Vehicle> vehiclesMiddle = new ArrayList<Vehicle>();
         ArrayList<Vehicle> vehiclesRight = new ArrayList<Vehicle>();
-        int vehicleCount = 0;
+        String[] lanes = {"Select Lane", "Left Lane", 
+                          "Middle Lane", "Right Lane"};
+        int vehicleCount, score = 0;
 
         Bike mainBike;
         String backgroundPath = "imgs/background.png";
@@ -32,28 +33,20 @@ public class Model {
         CollisionDetection collision;
 
         /* data for adding vehicles to sim */
-        ArrayList<String> vehiclePaths = new ArrayList<String>
-                         (Arrays.asList("bus", "car_blue", "car_grey",
-                                        "jeep", "car_green",
-                                        "cop_car", "fast_car"));
-        ArrayList<Integer> xVal = new ArrayList<Integer>
-                                (Arrays.asList(-500, 100, 490,
-                                                50, -250,
-                                                100, 490));
-        ArrayList<Integer> yVal = new ArrayList<Integer>
-                                (Arrays.asList(330, 380, 380,
-                                               450, 450,
-                                               510, 510));
-        ArrayList<Integer> speed = new ArrayList<Integer>
-                                 (Arrays.asList(30, 30, 30,
-                                                35, 30, 
-                                                80, 80));   
-
-        String[] newVehiclePaths = {"sports_car", "red_vintage", 
-                                    "black_vintage", "sliver_hatchback",
+        String[] newVehiclePaths = {"car_grey", "sports_car", 
+                                    "car_blue", "red_vintage", "black_vintage",
+                                    "fast_car", "jeep", "car_green",
+                                    "sliver_hatchback", "cop_car", 
                                     "blue_sport_sedan", "motorcycle_red", 
                                     "motorcycle_black"};
-
+        String[] newVehicles = {"Select Vehicle", "Grey Sedan", 
+                                "Red Sports Car", "Blue SUV",
+                                "Red Vintage Coupe", "Black Vintage Coupe",
+                                "Green Sports Car", "Jeep", "Green SUV",
+                                "Sliver Hatchback", "Cop Car", 
+                                "Blue Sport Sedan", "Red Motorcycle", 
+                                "Black Motorcycle"};
+        
         public Model(Canvas canvas, Controls stateControls) {
                 this.mainCanvas = canvas;
                 this.statePanel = stateControls.statePanel;
@@ -63,7 +56,7 @@ public class Model {
                 background2 = new Background(2132,0, 15, 
                                              mainCanvas, backgroundPath);
                 createVehicles();
-                selectedVehicle = new Car(0, 0, 0, 0, 
+                selectedVehicle = new Car("", 0, 0, 0, 0, 
                                           false, mainCanvas, "");
                 selectedVehicle.lane = -1;
                 statePanel.updateCarCount(vehicleCount);
@@ -75,28 +68,6 @@ public class Model {
                 mainBike = new Bike(550, 360, 15, 5, 
                                     false, mainCanvas, 
                                     "imgs/bike.png");
-                // vehiclesLeft.add(mainBike);
-
-                vehicleCount = vehiclePaths.size();
-                /* add cars to each lane */
-                for (int i = 0; i < vehicleCount; i++) {
-                        Vehicle vehicle = new Car(xVal.get(i), yVal.get(i), 
-                                                  speed.get(i), 5, true, 
-                                                  mainCanvas, 
-                                                  "imgs/" + 
-                                                  vehiclePaths.get(i) + 
-                                                  ".png");
-                        if (yVal.get(i) == 330 || yVal.get(i) == 380) {
-                                vehiclesLeft.add(vehicle);
-                                vehicle.lane = 0;
-                        } else if (yVal.get(i) == 450) {
-                                vehiclesMiddle.add(vehicle);
-                                vehicle.lane = 1;
-                        } else {
-                                vehiclesRight.add(vehicle);
-                                vehicle.lane = 2;
-                        }
-                }
         }
 
         /* draw methods called by canvas */
@@ -162,7 +133,6 @@ public class Model {
                 canvas.fillRect(0, 420, 1280, 20);
                 /* bottom sidewalk */ 
                 canvas.fillRect(0, 630, 1280, 40);
-
                 canvas.setColor(new Color(0x383838));
                 canvas.drawRect(0, 420, 1280, 20);
                 canvas.drawRect(0, 630, 1280, 40);
@@ -183,6 +153,8 @@ public class Model {
                 for (Vehicle vehicle : vehiclesLeft) { vehicle.brake(); }
                 for (Vehicle vehicle : vehiclesRight) { vehicle.brake(); }
                 for (Vehicle vehicle : vehiclesMiddle) { vehicle.brake(); }
+                statePanel.updateState("Simulation paused.");
+
         }
 
         public void startSimVehicles() {
@@ -190,21 +162,29 @@ public class Model {
                 for (Vehicle vehicle : vehiclesLeft) { vehicle.drive(); }
                 for (Vehicle vehicle : vehiclesRight) { vehicle.drive(); }
                 for (Vehicle vehicle : vehiclesMiddle) { vehicle.drive(); }
+                statePanel.updateState("");
         }
-
-        public void addSimVehicle(int vehicleIndex, int positionIndex, 
-                                  int vehicleSpeed) {
+                                        
+        public void addSimVehicle(String name, int vehicleIndex, 
+                                  int positionIndex, int vehicleSpeed) {
+                if (vehicleIndex < 0 || positionIndex < 1) {
+                        statePanel.updateState("Error: Invalid insertion");
+                        return;
+                }
                 String newVehPath = newVehiclePaths[vehicleIndex - 1];
-                Vehicle vehicle = new Car(-500, 0, vehicleSpeed, 5, 
+                Vehicle vehicle = new Car(name, -500, 0, vehicleSpeed, 5, 
                                  true, mainCanvas, 
                                           "imgs/" + newVehPath + ".png");
                 addToLane(vehicle, positionIndex - 1);
                 statePanel.updateCarCount(++vehicleCount);
+                score += 500;
+                statePanel.updateScore(score);
+                statePanel.updateState("Added a " + vehicle.name);
 
         }
 
         public void checkMouse(Point e) {
-                Vehicle newVehicle = new Car(0, 0, 0, 0, 
+                Vehicle newVehicle = new Car("NULL", 0, 0, 0, 0, 
                                              false, mainCanvas, "");
                 for (Vehicle vehicle : vehiclesLeft) { 
                         if (vehicle.wasClicked(e)) {
@@ -225,10 +205,17 @@ public class Model {
                 selectedVehicle.isSelected = false;
                 selectedVehicle = newVehicle;
                 selectedVehicle.isSelected = true;
+                if (selectedVehicle.name == "NULL") {
+                        statePanel.selectedLabel.setText("");
+                } else {
+                        statePanel.updateSelected(selectedVehicle.name, 
+                                                  lanes[selectedVehicle.lane + 1], 
+                                                  selectedVehicle.getSpeed());
+                }
                 mainCanvas.repaint();
         }
 
-        void changeLanes(Vehicle vehicle) {
+        void changeLanes(Vehicle vehicle, boolean printChange) {
                 int oldLane = vehicle.lane;
                 vehicle.lane = (oldLane + 1) % 3; /* loop through lanes */
 
@@ -241,6 +228,11 @@ public class Model {
                         vehiclesRight.remove(vehicle);
                 }
 
+                if (printChange) {
+                        statePanel.updateSelected(vehicle.name, 
+                                                  lanes[vehicle.lane + 1], 
+                                                  vehicle.getSpeed());
+                }
                 addToLane(vehicle, vehicle.lane);
         }
 
@@ -262,7 +254,8 @@ public class Model {
                 mainCanvas.repaint();
         }
 
-        void removeVehicle(Vehicle vehicle) {
+        void removeVehicle(Vehicle vehicle, boolean isDamaged) {
+                String msg = "";
                 /* add to new lane */
                 if (vehicle.lane == 0) { /* left */
                         vehiclesLeft.remove(vehicle);
@@ -272,7 +265,16 @@ public class Model {
                         vehiclesRight.remove(vehicle);
                 }
                 statePanel.updateCarCount(--vehicleCount);
+                if (isDamaged) {
+                        msg = "The " + vehicle.name + " sustained significant damage and had to be towed";
+                        score = (score - 50 < 0) ? 0: score - 50;
+                } else {
+                        msg = "Removed the " + vehicle.name;
+                        score = (score - 10 < 0) ? 0: score - 10;
+                }
+                statePanel.updateScore(score);
+                statePanel.updateState(msg);
+                statePanel.selectedLabel.setText("");
                 mainCanvas.repaint();
         }
 }
-

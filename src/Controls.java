@@ -1,10 +1,10 @@
 /*
  *  
- *  Assignment: Java5 Fall 2023
+ *  Assignment: Java6 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
- *  All controls needed for simulation; i.e driving, 
- *  changing speed and color 
+ *  All control panels needed for simulation; i.e driving, 
+ *  changing speed and color; to be used in Main
  *  
  */
 

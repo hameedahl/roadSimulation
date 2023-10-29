@@ -1,5 +1,5 @@
 /*
- *  Assignment: Java5 Fall 2023
+ *  Assignment: Java6 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Dropdown box to be used in SimControls to display new vehicles

@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java5 Fall 2023
+ *  Assignment: Java6 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Scrolling background; to be used by Model
@@ -26,7 +26,7 @@ public class Background extends Vehicle {
 
         public Background(int x, int y, int speed, Canvas canvas, 
                           String backgroundPath) {
-                super(x, y, speed, speed, 
+                super("", x, y, speed, speed, 
                       false, canvas, backgroundPath);
         }
 

@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java5 Fall 2023
+ *  Assignment: Java6 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Canvas to hold all drawing components of simulation
@@ -16,7 +16,7 @@ public class Canvas extends JPanel implements MouseListener {
         public Graphics2D canvasG;
         Model model;
 
-        Canvas () {
+        Canvas() {
                 addMouseListener(this);
         }
 

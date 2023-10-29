@@ -1,29 +1,40 @@
-
 ##
-## Assignment: Java5 Fall 2023
+## Assignment: Java6 Fall 2023
 ## Name: Hameedah Lawal 
 ## Email: hlawal01@tufts.edu
 ##
 
 ## PURPOSE
-        > Creates a window with a canvas containing the background, the player
-          (the bike), other types of vehicles needed for the simulation, and a 
-          control panel at the bottom which can be used to control components 
-          in the scene.
+        > Mini highway simulation game; control/manage the highway and 
+          avoid accidents
 
 ## USAGE
-        > Compile with `javac Background.java Controls.java Model.java 
-                        SimControls.java Bike.java DropDown.java 
-                        PlayerButton.java Slider.java Canvas.java Main.java
-                        PlayerControls.java Spinner.java Car.java MenuBar.java
-                        SimButton.java Vehicle.java`
+        > Compile with `javac Background.java CollisionDetection.java 
+                        ScrollList.java Spinner.java Bike.java Controls.java 
+                        Model.java SimButton.java StatePanel.java Canvas.java
+                        DropDown.java PlayerButton.java SimControls.java
+                        Vehicle.java Car.java Main.java PlayerControls.java
+                        Slider.java
         > Run with `java Main`
 
 ## RULES OF SIMULATION
-        > users can drive and change the speed and bike color
-        > add new vehicles to the simulation by picking a car, lane, and
-          initial speed, then hit "add vehicle"
-
+        > add as many cars as you can while still keeping the collision 
+          count low (tip: use different lanes and speeds)
+        > add new vehicles to the simulation——on the bottom left corner of the
+          screen: pick a car, lane, and initial speed, then hit "add vehicle"
+          (+500 points)
+        > when a vehicle collides with another (-50 points), both cars take 
+          "damage" and slow down until it eventually comes to a stop,
+          and is removed (-10 points) from the simulation 
+        > update vehicles in the simulation——click on a vehicle until you 
+          see a red box around it (pause the simulation if needed); on the 
+          bottom right corner of the screen change the speed, lane, or
+          remove it (-10 points).
+        > users can drive and change the speed and bike color 
+          (planning on either removing the bike or adding more 
+          functionality to it by next assignment because it doesn't do much
+          at the moment)
+        
 ## OBJECTS, INHERITANCES, AND HIERARCHY
         > Main (JFrame)
                 > Model
@@ -31,7 +42,13 @@
                                 > Bike (Vehicle)
                                 > Car (Vehicle)
                                 > Background (Vehicle)
+                        > CollisionDetection
+                        > StatePanel (owned by Controls)
+                        > Canvas
                 > Canvas (JPanel)
+                > Controls (JPanel)
+                        > StatePanel (JPanel)
+                                > JLabels
                 > Controls (JPanel)
                         > SimControls (Controls)
                                 > SimButton (Button)
@@ -39,10 +56,12 @@
                                 > Slider (JSlider)
                                 > DropDown (JComboBox)
                                 > Spinner (JSpinner)
+                                > ScrollList (JScrollPane)
                         > PlayerControls (Controls)
                                 > PlayerButton (Button) 
                                         > Background (owned by Model)
                                 > Slider (JSlider)
+                                > ScrollList (JScrollPane)
                                 
 ## CHANGELOG
         > 9/29/23 
@@ -71,3 +90,14 @@
                 => added simulation controls
                 => new cars can be added to the simulation 
                 => disabled/enabled buttons when interacted with
+        > 10/29/23
+                => added a state
+                => removed cars that were original added at the start of the
+                   simulation to leave creative control to users
+                => added mouse picking——click on a vehicle to change its lane,
+                   speed, or to remove it
+                => added collision detection between vehicles
+                => updated game rules (score is based on cars in simulation
+                   and the number of collisions)
+                => added a state panel that displays/keep tracks of the total
+                   collisions, cars, and player score 

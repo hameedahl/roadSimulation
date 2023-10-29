@@ -29,12 +29,12 @@ abstract public class Vehicle implements ActionListener {
         public  boolean isMoving; 
         private Timer timer;
         private Canvas mainCanvas;
-        public  String imagePath;
+        public  String imagePath, name;
         private Rectangle hitBox;
         public  boolean isSelected = false;
         public  int lane = -1;
 
-        public Vehicle (int x, int y, int speed, int speedChange, 
+        public Vehicle (String name, int x, int y, int speed, int speedChange, 
                         boolean isMoving, Canvas canvas, String imagePath) {
                 this.xLocation = x;
                 this.yLocation = y;
@@ -46,6 +46,7 @@ abstract public class Vehicle implements ActionListener {
                 this.imagePath = imagePath;
                 if (isMoving) { drive(); }
                 this.hitBox = new Rectangle (x, y, 100, 100); 
+                this.name = name;
         }
 
         public void draw(Graphics2D canvas) {
@@ -55,7 +56,8 @@ abstract public class Vehicle implements ActionListener {
                 canvas.setPaint(new Color(0,0,0,0));
                 if (isSelected) {
                         canvas.setStroke(new BasicStroke(2));
-                        canvas.setPaint(Color.red); /* add red boarder on click */
+                        /* add red boarder on click */
+                        canvas.setPaint(Color.red); 
                 } 
                 hitBox.x = getX();
                 hitBox.y = getY();
@@ -117,9 +119,7 @@ abstract public class Vehicle implements ActionListener {
         public void changeSpeed(int speedChange) {
                 /* update speed based on value from slider */
                 int newSpeed = initSpeed + speedChange;
-
                 timer.setDelay(newSpeed);
-                // speed = newSpeed;
         }
 
         public void tick() {
@@ -135,17 +135,21 @@ abstract public class Vehicle implements ActionListener {
                 return hitBox.contains(p);
         }
 
-        public boolean checkForCollision(Vehicle otherVehicle) {
+        public boolean checkForCollision(Vehicle otherVehicle, Model model) {
                 if (hitBox.intersects(otherVehicle.hitBox)) {
-                        /* car takes damage, so slow down */
+                        /* both cars takes damage, so slow down */
                         setSpeed(getSpeed() - 1);
+                        otherVehicle.setSpeed(otherVehicle.getSpeed() - 1);
+
+                        /* remove from sim if too much damage */
+                        if (!isMoving) { model.removeVehicle(this, true); }
+                        if (!otherVehicle.isMoving) { model.removeVehicle(otherVehicle, true); }
+
                         return true;
                 }
                 return false ;
-        }
-
-        100
-        0
+        }  
+        
         @Override
         public void actionPerformed(ActionEvent e) {
                 tick();

@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java5 Fall 2023
+ *  Assignment: Java6 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  
@@ -30,7 +30,7 @@ public class Bike extends Vehicle {
 
         public Bike(int x, int y, int speed, int speedChange, 
                     boolean isMoving, Canvas canvas, String imagePath) {
-                super(x, y, speed, speedChange, isMoving, canvas, 
+                super("Bike", x, y, speed, speedChange, isMoving, canvas, 
                      imagePath);
                 this.mainCanvas = canvas;
                 this.xLocation = x;
