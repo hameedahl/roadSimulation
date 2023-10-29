@@ -22,15 +22,18 @@ public class Main extends JFrame {
         public Main () {
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 setLayout(new BorderLayout());
-                setSize(1280, 780);
-
+                setSize(1280, 790);
+                
                 Canvas canvas = new Canvas(); /* canvas for ui */ 
-                Model simulationData = new Model(canvas);
+                Controls stateControls = new Controls(canvas);
+                Model simulationData = new Model(canvas, stateControls);
                 Controls controlPanel = new Controls(canvas, simulationData);
                 canvas.setModel(simulationData);
 
+
                 add(canvas); 
                 add(controlPanel, BorderLayout.PAGE_END);
+                add(stateControls, BorderLayout.PAGE_START);
                 setVisible(true);
         }
 }

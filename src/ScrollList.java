@@ -21,7 +21,7 @@ public class ScrollList extends JScrollPane{
                 scrollList.setLayoutOrientation(JList.VERTICAL);
                 scrollList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
                 scrollList.setVisibleRowCount(-1);
-                setPreferredSize(new Dimension(200, 25));
+                setPreferredSize(new Dimension(215, 36));
                 setViewportView(scrollList);
         }
 }

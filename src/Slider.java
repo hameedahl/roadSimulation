@@ -21,6 +21,7 @@ public class Slider extends JSlider implements ChangeListener {
                       Background background1, Background background2) {
                 new JSlider(minVal, maxVal);
                 setValue(0);
+                setMaximum(maxVal);
                 addChangeListener(this);
                 this.background1 = background1;
                 this.background2 = background2;
@@ -29,6 +30,7 @@ public class Slider extends JSlider implements ChangeListener {
         public Slider(int minVal, int maxVal, int start, Model model) {
                 new JSlider(minVal, maxVal);
                 setValue(0);
+                setMaximum(maxVal);
                 addChangeListener(this);
                 this.model = model;
         }

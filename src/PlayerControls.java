@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 public class PlayerControls extends JPanel{
         private int buttonId = 0;
         PlayerButton driveBtn, colorBtn, breakBtn;
-        PlayerButton changeLanesBtn, speedBtn, slowBtn;
+        PlayerButton changeLanesBtn, speedBtn, slowBtn, removeBtn;
 
         Slider speed;
 
@@ -28,7 +28,7 @@ public class PlayerControls extends JPanel{
                 JLabel playerJLabel = new JLabel("Player Controls");
                 driveBtn = new PlayerButton("Drive", ++buttonId, 
                                             this, simulationData);
-                speed = new Slider(0, 100, 0, 
+                speed = new Slider(0, 84, 0, 
                                           simulationData.background1, 
                                           simulationData.background2);
                 colorBtn = new PlayerButton("Change Bike Color", 
@@ -45,6 +45,8 @@ public class PlayerControls extends JPanel{
                                             this, simulationData);
                 slowBtn = new PlayerButton("Slow Down", ++buttonId, 
                                             this, simulationData);
+                removeBtn = new PlayerButton("Remove", ++buttonId, 
+                                            this, simulationData);
 
                 breakBtn.setEnabled(false);
                 speed.setEnabled(false);
@@ -57,6 +59,7 @@ public class PlayerControls extends JPanel{
                 add(changeLanesBtn);
                 add(slowBtn);
                 add(speedBtn);
+                add(removeBtn);
         }
 
         private void styleControls() {

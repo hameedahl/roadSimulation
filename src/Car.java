@@ -7,12 +7,7 @@
  * 
  */
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
-
-import javax.swing.ImageIcon;
 
 public class Car extends Vehicle {
         private boolean isMoving = false; 
@@ -31,6 +26,4 @@ public class Car extends Vehicle {
                 this.imagePath = imagePath;
                 this.hitBox = new Rectangle (x, y, 100, 100); 
         }
-
-
 }

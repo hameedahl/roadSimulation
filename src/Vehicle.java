@@ -32,6 +32,7 @@ abstract public class Vehicle implements ActionListener {
         public  String imagePath;
         private Rectangle hitBox;
         public  boolean isSelected = false;
+        public  int lane = -1;
 
         public Vehicle (int x, int y, int speed, int speedChange, 
                         boolean isMoving, Canvas canvas, String imagePath) {
@@ -80,7 +81,12 @@ abstract public class Vehicle implements ActionListener {
         }
 
         public void setSpeed(int newSpeed) {
-                speed = newSpeed;
+                if (newSpeed <= 0) {
+                        brake();
+                        speed = 0;
+                } else {
+                        speed = newSpeed;
+                }
         }
 
         public int getX() {
@@ -129,10 +135,17 @@ abstract public class Vehicle implements ActionListener {
                 return hitBox.contains(p);
         }
 
-        public void checkForCollision() {
-
+        public boolean checkForCollision(Vehicle otherVehicle) {
+                if (hitBox.intersects(otherVehicle.hitBox)) {
+                        /* car takes damage, so slow down */
+                        setSpeed(getSpeed() - 1);
+                        return true;
+                }
+                return false ;
         }
 
+        100
+        0
         @Override
         public void actionPerformed(ActionEvent e) {
                 tick();

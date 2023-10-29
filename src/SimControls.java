@@ -33,12 +33,9 @@ public class SimControls extends JPanel {
                 this.model = simulationData;
                 styleControls();
                 JLabel title = new JLabel("Simulation Controls");
-                pause = new SimButton("Pause", ++buttonId, 
-                                      model, this);
-                play = new SimButton("Play", ++buttonId, 
-                                     model, this);
-                speed = new Slider(0, 100, 0, 
-                                   model);
+                pause = new SimButton("Pause", ++buttonId, model, this);
+                play = new SimButton("Play", ++buttonId, model, this);
+                speed = new Slider(0, 84, 0, model);
                 vehicleOptions = new ScrollList(newVehicles);
                 posOptions = new DropDown(positions);
                 vehicleSpeed = new Spinner(0, 30);
@@ -47,7 +44,6 @@ public class SimControls extends JPanel {
                                            model, this);
 
                 play.setEnabled(false); /* sim starts of on play */
-
                 add(title);
                 add(pause);
                 add(play);

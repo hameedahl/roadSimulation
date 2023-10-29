@@ -12,7 +12,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,10 +24,12 @@ public class Model {
         Bike mainBike;
         String backgroundPath = "imgs/background.png";
         Canvas mainCanvas;
+        StatePanel statePanel;
         Background background1, background2;
         int bikeIdx = 0;
         boolean isPaused = false;
         Vehicle selectedVehicle;
+        CollisionDetection collision;
 
         /* data for adding vehicles to sim */
         ArrayList<String> vehiclePaths = new ArrayList<String>
@@ -44,29 +45,35 @@ public class Model {
                                                450, 450,
                                                510, 510));
         ArrayList<Integer> speed = new ArrayList<Integer>
-                                 (Arrays.asList(25, 25, 25,
-                                                30, 25, 
-                                                70, 70));   
+                                 (Arrays.asList(30, 30, 30,
+                                                35, 30, 
+                                                80, 80));   
 
         String[] newVehiclePaths = {"sports_car", "red_vintage", 
                                     "black_vintage", "sliver_hatchback",
                                     "blue_sport_sedan", "motorcycle_red", 
                                     "motorcycle_black"};
 
-        public Model(Canvas canvas) {
+        public Model(Canvas canvas, Controls stateControls) {
                 this.mainCanvas = canvas;
+                this.statePanel = stateControls.statePanel;
                 /* have 2nd background already drawn for looping */
                 background1 = new Background(0,0, 15, 
                                              mainCanvas, backgroundPath);
                 background2 = new Background(2132,0, 15, 
                                              mainCanvas, backgroundPath);
                 createVehicles();
-                selectedVehicle = new Car(0, 0, 0, 0, false, mainCanvas, "");
+                selectedVehicle = new Car(0, 0, 0, 0, 
+                                          false, mainCanvas, "");
+                selectedVehicle.lane = -1;
+                statePanel.updateCarCount(vehicleCount);
+                collision = new CollisionDetection(this, statePanel);
         }
 
         public void createVehicles() {
                 /* add bike to sidewalk */
-                mainBike = new Bike(550, 360, 15, 5, false, mainCanvas, 
+                mainBike = new Bike(550, 360, 15, 5, 
+                                    false, mainCanvas, 
                                     "imgs/bike.png");
                 // vehiclesLeft.add(mainBike);
 
@@ -81,10 +88,13 @@ public class Model {
                                                   ".png");
                         if (yVal.get(i) == 330 || yVal.get(i) == 380) {
                                 vehiclesLeft.add(vehicle);
+                                vehicle.lane = 0;
                         } else if (yVal.get(i) == 450) {
                                 vehiclesMiddle.add(vehicle);
+                                vehicle.lane = 1;
                         } else {
                                 vehiclesRight.add(vehicle);
+                                vehicle.lane = 2;
                         }
                 }
         }
@@ -188,37 +198,27 @@ public class Model {
                 Vehicle vehicle = new Car(-500, 0, vehicleSpeed, 5, 
                                  true, mainCanvas, 
                                           "imgs/" + newVehPath + ".png");
-                if (positionIndex == 1) { /* left */
-                        vehicle.setY(380);
-                        vehiclesLeft.add(vehicle);
-                } else if (positionIndex == 2) { /* middle */
-                        vehicle.setY(450);
-                        vehiclesMiddle.add(vehicle);
-                } else { /* right */
-                        vehicle.setY(510);
-                        vehiclesRight.add(vehicle);
-                }
-                mainCanvas.repaint();
+                addToLane(vehicle, positionIndex - 1);
+                statePanel.updateCarCount(++vehicleCount);
+
         }
 
         public void checkMouse(Point e) {
-                Vehicle newVehicle = new Car(0, 0, 0, 0, false, mainCanvas, "");
+                Vehicle newVehicle = new Car(0, 0, 0, 0, 
+                                             false, mainCanvas, "");
                 for (Vehicle vehicle : vehiclesLeft) { 
                         if (vehicle.wasClicked(e)) {
                                 newVehicle = vehicle;
-                                System.out.println(vehicle.imagePath);
                         } 
                 }
                 for (Vehicle vehicle : vehiclesRight) { 
                         if (vehicle.wasClicked(e)) {
                                 newVehicle = vehicle;
-                                System.out.println(vehicle.imagePath);
                         } 
                  }
                 for (Vehicle vehicle : vehiclesMiddle) { 
                         if (vehicle.wasClicked(e)) {
                                 newVehicle = vehicle;
-                                System.out.println(vehicle.imagePath);
                         }  
                 }
 
@@ -226,8 +226,53 @@ public class Model {
                 selectedVehicle = newVehicle;
                 selectedVehicle.isSelected = true;
                 mainCanvas.repaint();
+        }
 
+        void changeLanes(Vehicle vehicle) {
+                int oldLane = vehicle.lane;
+                vehicle.lane = (oldLane + 1) % 3; /* loop through lanes */
+
+                /* remove vehicle from old lane */
+                if (oldLane == 0) { /* left */
+                        vehiclesLeft.remove(vehicle);
+                } else if (oldLane == 1) { /* middle */
+                        vehiclesMiddle.remove(vehicle);
+                } else { /* right */
+                        vehiclesRight.remove(vehicle);
+                }
+
+                addToLane(vehicle, vehicle.lane);
+        }
+
+        void addToLane(Vehicle vehicle, int lane) {
+                /* add to new lane */
+                if (lane == 0) { /* left */
+                        vehicle.setY(380);
+                        vehicle.lane = lane;
+                        vehiclesLeft.add(vehicle);
+                } else if (lane == 1) { /* middle */
+                        vehicle.setY(450);
+                        vehicle.lane = lane;
+                        vehiclesMiddle.add(vehicle);
+                } else { /* right */
+                        vehicle.setY(510);
+                        vehicle.lane = lane;
+                        vehiclesRight.add(vehicle);
+                }
+                mainCanvas.repaint();
+        }
+
+        void removeVehicle(Vehicle vehicle) {
+                /* add to new lane */
+                if (vehicle.lane == 0) { /* left */
+                        vehiclesLeft.remove(vehicle);
+                } else if (vehicle.lane == 1) { /* middle */
+                        vehiclesMiddle.remove(vehicle);
+                } else { /* right */
+                        vehiclesRight.remove(vehicle);
+                }
+                statePanel.updateCarCount(--vehicleCount);
+                mainCanvas.repaint();
         }
 }
 
-// check for collision in tick

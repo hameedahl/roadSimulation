@@ -54,11 +54,16 @@ public class PlayerButton extends JButton implements ActionListener {
                                 background2.brake();
                                 break;
                         case 4: /* change lanes */
+                                model.changeLanes(model.selectedVehicle);
                                 break;
                         case 5: /* speed up */
-                                model.selectedVehicle.changeSpeed(5 *-1);
+                                model.selectedVehicle.setSpeed(model.selectedVehicle.getSpeed() + 5);
                                 break;
                         case 6: /* slow down */
+                                model.selectedVehicle.setSpeed(model.selectedVehicle.getSpeed() - 5);
+                                break;
+                        case 7: /* remove */
+                                model.removeVehicle(model.selectedVehicle);
                                 break;
                 }
         }

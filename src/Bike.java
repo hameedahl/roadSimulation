@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 public class Bike extends Vehicle {
         private int colorIdx = 0;
@@ -31,7 +30,8 @@ public class Bike extends Vehicle {
 
         public Bike(int x, int y, int speed, int speedChange, 
                     boolean isMoving, Canvas canvas, String imagePath) {
-                super(x, y, speed, speedChange, isMoving, canvas, imagePath);
+                super(x, y, speed, speedChange, isMoving, canvas, 
+                     imagePath);
                 this.mainCanvas = canvas;
                 this.xLocation = x;
                 this.yLocation = y;
