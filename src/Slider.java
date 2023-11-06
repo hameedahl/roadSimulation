@@ -1,5 +1,5 @@
 /*
- *  Assignment: Java6 Fall 2023
+ *  Assignment: Java7 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Get value to change speed of vehicles; to be used by
@@ -8,7 +8,6 @@
 
 import java.awt.Color;
 import java.awt.Font;
-
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

@@ -1,6 +1,6 @@
 /*
 
- *  Assignment: Java6 Fall 2023
+ *  Assignment: Java7 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Buttons to control the simulation vehicle by interacting with 
@@ -45,12 +45,17 @@ public class SimButton extends JButton implements ActionListener {
                                 model.startSimVehicles();
                                 break;
                         case 3: /* add new vehicle */
-                                int vehIndex = controls.vehicleOptions.scrollList.getSelectedIndex();
-                                String name = controls.vehicleOptions.scrollList.getSelectedValue();
-                                int posIndex = controls.posOptions.getSelectedIndex();
+                                int vehIndex = controls.vehicleOptions.
+                                               scrollList.getSelectedIndex();
+                                String name = controls.vehicleOptions.
+                                              scrollList.getSelectedValue();
+                                int posIndex = controls.posOptions.
+                                               getSelectedIndex();
                                 /* only add if option is selected */
                                 model.addSimVehicle(name, vehIndex, posIndex, 
-                                                    Integer.parseInt(controls.vehicleSpeed.getValue().toString()));
+                                                    Integer.parseInt(controls.
+                                                    vehicleSpeed.getValue().
+                                                    toString()));
                                 break;
                 }
         }

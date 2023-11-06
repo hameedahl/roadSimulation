@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java6 Fall 2023
+ *  Assignment: Java7 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Holds data for the simulation and keeps track 
@@ -11,6 +11,7 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -20,8 +21,8 @@ public class Model {
         ArrayList<Vehicle> vehiclesRight = new ArrayList<Vehicle>();
         String[] lanes = {"Select Lane", "Left Lane", 
                           "Middle Lane", "Right Lane"};
+        int[] laneVal = {380, 450, 510};
         int vehicleCount, score = 0;
-
         Bike mainBike;
         String backgroundPath = "imgs/background.png";
         Canvas mainCanvas;
@@ -31,21 +32,55 @@ public class Model {
         boolean isPaused = false;
         Vehicle selectedVehicle;
         CollisionDetection collision;
+        double zoom = 1, streetZoom = 0, vehicleZoom = 1;
+
+        /* HTML instructions for dialogue box */
+        String instructions = 
+        """
+        <html>
+            <div>
+                <span style='color: blue;'><b>How To Win: Add as many 
+                vehicles as you can while still keeping the <br> collision count 
+                low <i>(Tip: Use different lanes and speed)</i><b><br>
+                </span>
+                <ul>
+                   <li><i><span style='color: blue;'>Adding Vehicles</i></span>
+                   → on the bottom left corner of the screen: <br> pick a car,
+                   lane, and initial speed, then hit "Add Vehicle"<b><br>
+                   (+500 points)</b><br><br>
+
+                   <li><i><span style='color: blue;'>Modifying Vehicles</i>
+                   </span>→ click on a vehicle until a red box <br> outlines it
+                   (pause the simulation, if needed). On the bottom <br>
+                   right corner of the screen, change the speed, lane, or
+                   remove it <br><b>(-10 points)</b>. <br><br>
+                   
+                   <li><i><span style='color: blue;'>Collisions</i>
+                   </span>→ When a vehicle collides with another <b>
+                   (-50 points)</b>, <br>both take "damage" and slow down 
+                   until they eventually<br> come to a stop, and are removed
+                   from the simulation <br><b>(-10 points)</b>
+                </ul>
+            </div>
+        </html>       
+        """;
 
         /* data for adding vehicles to sim */
-        String[] newVehiclePaths = {"car_grey", "sports_car", 
-                                    "car_blue", "red_vintage", "black_vintage",
-                                    "fast_car", "jeep", "car_green",
-                                    "sliver_hatchback", "cop_car", 
+        String[] newVehiclePaths = {"car_grey",  "bike_blue", "sports_car", 
+                                    "car_blue", "bike_green", "red_vintage", 
+                                    "black_vintage", "fast_car", "jeep", 
+                                    "bike_orange", "car_green", 
+                                    "sliver_hatchback", "cop_car", "bike_pink",
                                     "blue_sport_sedan", "motorcycle_red", 
-                                    "motorcycle_black"};
-        String[] newVehicles = {"Select Vehicle", "Grey Sedan", 
-                                "Red Sports Car", "Blue SUV",
-                                "Red Vintage Coupe", "Black Vintage Coupe",
-                                "Green Sports Car", "Jeep", "Green SUV",
-                                "Sliver Hatchback", "Cop Car", 
+                                    "motorcycle_black", "bike_red"};
+        String[] newVehicles = {"Select Vehicle", 
+                                "Grey Sedan", "Blue Bike", "Red Sports Car", 
+                                "Blue SUV", "Green Bike", "Red Vintage Coupe", 
+                                "Black Vintage Coupe", "Green Sports Car", 
+                                "Jeep", "Orange Bike", "Green SUV", 
+                                "Sliver Hatchback", "Cop Car", "Pink Bike", 
                                 "Blue Sport Sedan", "Red Motorcycle", 
-                                "Black Motorcycle"};
+                                "Black Motorcycle", "Red Bike"};
         
         public Model(Canvas canvas, Controls stateControls) {
                 this.mainCanvas = canvas;
@@ -55,7 +90,7 @@ public class Model {
                                              mainCanvas, backgroundPath);
                 background2 = new Background(2132,0, 15, 
                                              mainCanvas, backgroundPath);
-                createVehicles();
+                
                 selectedVehicle = new Car("", 0, 0, 0, 0, 
                                           false, mainCanvas, "");
                 selectedVehicle.lane = -1;
@@ -63,7 +98,7 @@ public class Model {
                 collision = new CollisionDetection(this, statePanel);
         }
 
-        public void createVehicles() {
+        public void addPlayerBike() {
                 /* add bike to sidewalk */
                 mainBike = new Bike(550, 360, 15, 5, 
                                     false, mainCanvas, 
@@ -79,11 +114,6 @@ public class Model {
         }
 
         public void drawVehicles(Graphics2D canvas) {
-                if (background1.isMoving) {
-                        mainBike.animate(); /* show "peddling" */
-                }
-                mainBike.draw(canvas);
-
                 /* draw vehicles in order of lane for layering */
                 for (Vehicle vehicle : vehiclesLeft) {
                         vehicle.draw(canvas);
@@ -99,23 +129,30 @@ public class Model {
         }
 
         public void drawBackground(Background background, Graphics2D canvas) {
-                canvas.drawImage(background.getBgImage(), 
-                                 background.getX(), 0, null);
+                canvas.drawImage(background.getImage(), 
+                                 background.getX(), background.getY(), 
+                                 background.getWidth(), 
+                                 background.getHeight(), null);
         }
         
         public void drawRoad(Graphics2D canvas) {
                 /* street */
                 canvas.setColor(new Color(0x41413E));
-                canvas.fillRect(0, 450, 1280, 180);
+                canvas.fillRect(0, (int) (450 + streetZoom), 
+                                1280, (int) (180 + streetZoom));
 
                 /* lanes */
                 canvas.setColor(Color.white);
                 int lanesLineX = 0;
 
                 for (int i = 0; i < 9; i++) {
-                        canvas.fillRect(lanesLineX, 510, /* upper lane */
+                        /* upper lane */
+                        canvas.fillRect(lanesLineX, 
+                                        (int) (510 + (streetZoom * 2)), 
                                         100, 6); 
-                        canvas.fillRect(lanesLineX, 570, 100, 6);
+                        canvas.fillRect(lanesLineX, 
+                                        (int) (570 + (streetZoom * 2)),
+                                        100, 6);
                         lanesLineX += 150;
                 }
                 drawSideWalk(canvas);
@@ -123,27 +160,37 @@ public class Model {
 
         public void drawSideWalk(Graphics2D canvas) {
                 /* top sidewalk step */
+                double scaledZoom = (streetZoom / 2);
                 canvas.setColor(new Color(0x737373));
-                canvas.fillRect(0, 440, 1280, 10);
+                canvas.fillRect(0, (int) (440 + streetZoom), 
+                                1280, (int) (10 + scaledZoom)); 
                 canvas.setStroke(new BasicStroke(3));
-                canvas.drawRect(0, 440, 1280, 10);
+                canvas.drawRect(0, (int) (440 + streetZoom), 
+                                1280, (int) (10 + scaledZoom));
 
                 canvas.setColor(new Color(0x919191));
                 /* top sidewalk */
-                canvas.fillRect(0, 420, 1280, 20);
+                canvas.fillRect(0, (int) (420 + streetZoom), 
+                                1280, (int) (20 + scaledZoom));
                 /* bottom sidewalk */ 
-                canvas.fillRect(0, 630, 1280, 40);
+                canvas.fillRect(0, (int) (630 + streetZoom), 
+                                1280, (int) (40 + scaledZoom));
+                
                 canvas.setColor(new Color(0x383838));
-                canvas.drawRect(0, 420, 1280, 20);
-                canvas.drawRect(0, 630, 1280, 40);
+                canvas.drawRect(0, (int) (420 + streetZoom), 
+                                1280, (int) (20 + scaledZoom));
+                canvas.drawRect(0, (int) (630 + streetZoom), 
+                                1280, (int) (40 + scaledZoom));
 
                 /* lines for sidewalk */
                 canvas.setColor(new Color(0x4b4b4b));
                 int topLineBottom = 450;
                 int topXVal = 50;
                 for (int i = 0; i < 25; i++) {
-                        canvas.drawLine(topXVal, 440, 
-                                        topXVal, topLineBottom);
+                        double scaleZoom = streetZoom * 1.5;
+                        canvas.drawLine(topXVal, (int) (440 + scaleZoom), 
+                                        topXVal, 
+                                        (int) (topLineBottom + scaleZoom));
                         topXVal += 50;
                 }
         }
@@ -154,7 +201,6 @@ public class Model {
                 for (Vehicle vehicle : vehiclesRight) { vehicle.brake(); }
                 for (Vehicle vehicle : vehiclesMiddle) { vehicle.brake(); }
                 statePanel.updateState("Simulation paused.");
-
         }
 
         public void startSimVehicles() {
@@ -180,7 +226,6 @@ public class Model {
                 score += 500;
                 statePanel.updateScore(score);
                 statePanel.updateState("Added a " + vehicle.name);
-
         }
 
         public void checkMouse(Point e) {
@@ -215,7 +260,7 @@ public class Model {
                 mainCanvas.repaint();
         }
 
-        void changeLanes(Vehicle vehicle, boolean printChange) {
+        public void changeLanes(Vehicle vehicle, boolean printChange) {
                 int oldLane = vehicle.lane;
                 vehicle.lane = (oldLane + 1) % 3; /* loop through lanes */
 
@@ -236,7 +281,7 @@ public class Model {
                 addToLane(vehicle, vehicle.lane);
         }
 
-        void addToLane(Vehicle vehicle, int lane) {
+        public void addToLane(Vehicle vehicle, int lane) {
                 /* add to new lane */
                 if (lane == 0) { /* left */
                         vehicle.setY(380);
@@ -254,7 +299,7 @@ public class Model {
                 mainCanvas.repaint();
         }
 
-        void removeVehicle(Vehicle vehicle, boolean isDamaged) {
+        public void removeVehicle(Vehicle vehicle, boolean isDamaged) {
                 String msg = "";
                 /* add to new lane */
                 if (vehicle.lane == 0) { /* left */
@@ -266,7 +311,8 @@ public class Model {
                 }
                 statePanel.updateCarCount(--vehicleCount);
                 if (isDamaged) {
-                        msg = "The " + vehicle.name + " sustained significant damage and had to be towed";
+                        msg = "The " + vehicle.name + 
+                        " sustained significant damage and had to be towed";
                         score = (score - 50 < 0) ? 0: score - 50;
                 } else {
                         msg = "Removed the " + vehicle.name;
@@ -276,5 +322,57 @@ public class Model {
                 statePanel.updateState(msg);
                 statePanel.selectedLabel.setText("");
                 mainCanvas.repaint();
+        }
+        
+        public void zoom() {
+                scaleBackground();
+                scaleVehicles();
+                mainCanvas.repaint();
+        }
+
+        public void scaleBackground() {
+                Image image = background1.getImage();
+                int scaledWidth = (int) (image.getWidth(null) * zoom);
+                int scaledHeight = (int) (image.getHeight(null) * zoom);
+                int x = (image.getWidth(null) - scaledWidth) / 2;
+                int y = (image.getHeight(null) - scaledHeight) / 2;
+
+                background1.setX(x);                                
+                background1.setY(y);
+                background1.setWidth(scaledWidth);                                
+                background1.setHeight(scaledHeight);
+        }
+
+        public void scaleVehicles() {
+                for (Vehicle vehicle : vehiclesLeft) {
+                        scaleVehiclesHelper(vehicle);
+                }
+
+                for (Vehicle vehicle : vehiclesMiddle) {
+                        scaleVehiclesHelper(vehicle);
+                }
+
+                for (Vehicle vehicle : vehiclesRight) {
+                        scaleVehiclesHelper(vehicle);
+                }
+        }
+
+        public void scaleVehiclesHelper(Vehicle vehicle) {
+                Image image = vehicle.getImage();
+                double h = image.getHeight(null),
+                       w = image.getWidth(null);
+                double area = (w * vehicleZoom) * (h * vehicleZoom), 
+                       ratio = (w * vehicleZoom) / (h * vehicleZoom);
+
+                /* maintain aspect ratio */
+                double scaledWidth = Math.sqrt(ratio * area);
+                double scaledHeight = area / scaledWidth;
+
+                double y = (streetZoom + laneVal[vehicle.lane]) + 
+                            ((h - scaledHeight) / 20);
+
+                vehicle.setWidth((int) scaledWidth);                                
+                vehicle.setHeight((int) scaledHeight);         
+                vehicle.setY((int) y);
         }
 }

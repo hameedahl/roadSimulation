@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java6 Fall 2023
+ *  Assignment: Java7 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Canvas to hold all drawing components of simulation

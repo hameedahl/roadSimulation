@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java6 Fall 2023
+ *  Assignment: Java7 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Keep tracks of collisions between vehicles and updates the score and
@@ -27,7 +27,9 @@ public class CollisionDetection implements ActionListener {
         public void actionPerformed(ActionEvent e) {
                 for (int i = 0; i < model.vehiclesLeft.size(); i++) {
                         for (int j = i + 1; j < model.vehiclesLeft.size(); j++) {
-                                if (model.vehiclesLeft.get(i).checkForCollision(model.vehiclesLeft.get(j),  model)) { 
+                                if (model.vehiclesLeft.get(i).
+                                   checkForCollision(model.vehiclesLeft.get(j),
+                                   model)) { 
                                         collisions++;
                                         model.score -= 10;
                                 }
@@ -36,7 +38,9 @@ public class CollisionDetection implements ActionListener {
 
                 for (int i = 0; i < model.vehiclesMiddle.size(); i++) {
                         for (int j = i + 1; j < model.vehiclesMiddle.size(); j++) {
-                                if (model.vehiclesMiddle.get(i).checkForCollision(model.vehiclesMiddle.get(j), model)) { 
+                                if (model.vehiclesMiddle.get(i).
+                                   checkForCollision(model.vehiclesMiddle.get(j), 
+                                   model)) { 
                                         collisions++;
                                         model.score -= 10;
                                 }
@@ -45,7 +49,9 @@ public class CollisionDetection implements ActionListener {
 
                 for (int i = 0; i < model.vehiclesRight.size(); i++) {
                         for (int j = i + 1; j < model.vehiclesRight.size(); j++) {
-                                if (model.vehiclesRight.get(i).checkForCollision(model.vehiclesRight.get(j),  model)) { 
+                                if (model.vehiclesRight.get(i).
+                                    checkForCollision(model.vehiclesRight.get(j),
+                                    model)) { 
                                         collisions++;
                                         model.score -= 10;
                                 }

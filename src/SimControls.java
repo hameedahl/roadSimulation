@@ -1,6 +1,6 @@
 /*
 
- *  Assignment: Java6 Fall 2023
+ *  Assignment: Java7 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Holds simulation widgets to control and customize the simulation 
@@ -34,7 +34,8 @@ public class SimControls extends JPanel {
                 speed = new Slider(0, 84, 0, model);
                 vehicleOptions = new ScrollList(model.newVehicles);
                 posOptions = new DropDown(model.lanes);
-                vehicleSpeed = new JSpinner(new SpinnerNumberModel(25, 0, 300, 1));
+                vehicleSpeed = new JSpinner(new SpinnerNumberModel(25, 
+                                            0, 300, 1));
                 addVehicle = new SimButton("Add Vehicle", ++buttonId, 
                                            model, this);
 

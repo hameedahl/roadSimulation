@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java4 Fall 2023
+ *  Assignment: Java7 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Abstract base class for all vehicles in simulation; 
@@ -33,9 +33,13 @@ abstract public class Vehicle implements ActionListener {
         private Rectangle hitBox;
         public  boolean isSelected = false;
         public  int lane = -1;
+        public int width, height;
+        public Image image;
+
 
         public Vehicle (String name, int x, int y, int speed, int speedChange, 
-                        boolean isMoving, Canvas canvas, String imagePath) {
+                        boolean isMoving, Canvas canvas, 
+                        String imagePath) {
                 this.xLocation = x;
                 this.yLocation = y;
                 this.speed = speed;
@@ -45,33 +49,26 @@ abstract public class Vehicle implements ActionListener {
                 this.timer = new Timer(initSpeed, this);
                 this.imagePath = imagePath;
                 if (isMoving) { drive(); }
-                this.hitBox = new Rectangle (x, y, 100, 100); 
                 this.name = name;
         }
 
         public void draw(Graphics2D canvas) {
                 Image img = new ImageIcon(imagePath).getImage();
                 canvas.drawImage(img, getX(), 
-                                  getY(), null);
+                                 getY(), getWidth(), getHeight(), null);
                 canvas.setPaint(new Color(0,0,0,0));
                 if (isSelected) {
                         canvas.setStroke(new BasicStroke(2));
                         /* add red boarder on click */
                         canvas.setPaint(Color.red); 
                 } 
-                hitBox.x = getX();
-                hitBox.y = getY();
-                hitBox.width = img.getWidth(null);
-                hitBox.height = img.getHeight(null);
+                this.hitBox = new Rectangle (getX(), getY(), getWidth(), 
+                                            getHeight()); 
                 canvas.draw(hitBox);
         } 
 
         public void setImagePath(String path) {
                 imagePath = path;
-        }
-
-        public String getImagePath() {
-                return imagePath;
         }
 
         public void setX(int newX) {
@@ -91,6 +88,18 @@ abstract public class Vehicle implements ActionListener {
                 }
         }
 
+        public void setWidth(int width) {
+                this.width = width;
+        }
+
+        public void setHeight(int height) {
+                this.height = height;
+        }
+
+        public void setImage(Image newImage) {
+                image = newImage;
+        }
+
         public int getX() {
                 return xLocation;
         }
@@ -101,6 +110,22 @@ abstract public class Vehicle implements ActionListener {
 
         public int getSpeed() {
                 return speed;
+        }
+
+        public int getWidth() {
+                return width;
+        }
+
+        public int getHeight() {
+               return height;
+        }
+
+        public Image getImage() {
+                return image;
+        }
+
+        public String getImagePath() {
+                return imagePath;
         }
 
         public void drive() {
@@ -143,7 +168,9 @@ abstract public class Vehicle implements ActionListener {
 
                         /* remove from sim if too much damage */
                         if (!isMoving) { model.removeVehicle(this, true); }
-                        if (!otherVehicle.isMoving) { model.removeVehicle(otherVehicle, true); }
+                        if (!otherVehicle.isMoving) { 
+                                model.removeVehicle(otherVehicle, true); 
+                        }
 
                         return true;
                 }

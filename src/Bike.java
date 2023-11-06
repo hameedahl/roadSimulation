@@ -1,11 +1,11 @@
 /*
  *  
- *  Assignment: Java6 Fall 2023
+ *  Assignment: Java7 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  
- *  Implements a Bike, the main player/vehicle of the simulation; can 
- *  change speed color and location
+ *  Implements a Bike, can change speed color 
+ *  and location
  * 
  */
 

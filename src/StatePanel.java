@@ -1,6 +1,6 @@
 /*
  *  
- *  Assignment: Java6 Fall 2023
+ *  Assignment: Java7 Fall 2023
  *  Name: Hameedah Lawal 
  *  Email: hlawal01@tufts.edu
  *  Displays the status of the game (score, collisions, and car count) 
