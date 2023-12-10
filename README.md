@@ -45,8 +45,10 @@ To run this highway simulator game locally, follow these steps:
 - Enjoy the simulation and have fun exploring the virtual highway.
 
 ## Screenshots
-<img width="1281" alt="main gui" src="https://github.com/hameedahl/roadSimulation/blob/main/src/imgs/gui.png">
+<img width="1281" alt="instructions" src="https://github.com/hameedahl/roadSimulation/blob/main/src/imgs/instructions.png">
+<img width="1281" alt="main gui" src="https://github.com/hameedahl/roadSimulation/blob/main/src/imgs/gamePlay1.png">
 
-## Contributing
+
+## Contribution
 
 All art and images are not my own. All credits to their respective owners. 
