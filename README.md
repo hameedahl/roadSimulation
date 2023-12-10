@@ -51,4 +51,4 @@ To run this highway simulator game locally, follow these steps:
 
 ## Contribution
 
-All art and images are not my own. All credits to their respective owners. 
+All art and images used in the simulation are not my own. All credits to their respective owners. 
